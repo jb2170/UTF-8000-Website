@@ -923,29 +923,34 @@
       <table>
         <thead>
           <tr>
-            <th><code>N</code></th>
-            <th>number of content bits (<code>2^N</code>)</th>
-            <th>code unit length</th>
+            <th><code>K</code></th>
+            <th><code>N=4K</code></th>
+            <th>number of content bits <code>= 2^N</code></th>
+            <th>code unit length <code>= (2^N - 1) / 5</code></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><code>1</code></td>
+            <td><code>4</code></td>
             <td><code>16</code></td>
             <td><code>3</code></td>
           </tr>
           <tr>
             <td><code>2</code></td>
+            <td><code>8</code></td>
             <td><code>256</code></td>
             <td><code>51</code></td>
           </tr>
           <tr>
             <td><code>3</code></td>
+            <td><code>12</code></td>
             <td><code>4096</code></td>
             <td><code>819</code></td>
           </tr>
           <tr>
             <td><code>4</code></td>
+            <td><code>16</code></td>
             <td><code>65536</code></td>
             <td><code>13107</code></td>
           </tr>
@@ -1367,7 +1372,7 @@
         <summary>UTF-32K</summary>
       </details>
 
-      <details id="sec-idea-utf-32k" open="true">
+      <details id="sec-idea-variable-length-pointers" open="true">
         <summary>Variable Length Pointers</summary>
         <p>Ben Eater</p>
       </details>
@@ -1380,11 +1385,16 @@
 
     <details id="sec-rejected-alternatives" open="true">
       <summary>Rejected Alternatives</summary>
-      <p>Although UTF-8000 extends <q>naturally</q> from UTF-8, is it still the best approach? Are there any better alternatives that <q>engineer</q> an extension from UTF-8, just as UTF-8 <a href="#sec-intuitive-derivation-engineer:~:text=the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem">engineers</a> an extension from ASCII? We rule out a few other suggestions in this section.</p>
+      <p>Although UTF-8000 extends <q>naturally</q> from UTF-8, is it still the best approach? Are there any better alternatives that <q>engineer</q> an extension from UTF-8, just as UTF-8 <a href="#sec-intuitive-derivation-engineer:~:text=the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem">engineers</a> an extension from ASCII?</p>
+
+      <p>We rule out a few alternatives in this section. It's good to document the suboptimal solutions (and outright failures) so that we can work towards success. I've done that plenty of times with my own ideas don't worry! Feel satisfied in having at least made an attempt.</p>
 
       <details id="sec-rejected-ascvi" no-open="true">
         <summary>ASCVI</summary>
         <p>What if ASCII were only six-bit instead of seven-bit? Would this make extending to multi-byte code units more pleasant?</p>
+
+        <h3>Source</h3>
+        <p>Myself: The <a href="#sec-intuitive-derivation">intuitive derivation</a> section of UTF-8000.</p>
 
         <h3>TLDR / Examples</h3>
         <table>
@@ -1821,10 +1831,228 @@
         <p>7 bit ASCII, and UTF-8 that extends it, are very well established. One-byte ASCVI is inferior to the flexibility of ASCII, albeit this contributes to UTF-8 having a slightly lower information rate for multi-byte code units. I do not yearn for an alternate universe, or a fresh start of text encoding standards, where ASCII is six-bit instead of seven.</p>
       </details>
 
-      <details id="sec-rejected-utf-inf" open="true">
-        <summary>Rejected Alternative UTF-Inf</summary>
-        <p>UTF-∞</p>
-        <p>Mashpoe in his <a href="https://www.youtube.com/watch?v=tAMDtH9uq1Y">YouTube video</a> lays out an alternative suboptimal extension of UTF-8 that has several flaws and quirks. This section is <em>not</em> meant to be a personal attack on Mashpoe for attempting a problem and ending up with a suboptimal result. I've done that plenty of times myself and it's good to document the failures so we can work towards success. My only major gripe with Mashpoe's video is the joke about patenting, which I talk against in the <a href="#sec-licensing">licensing section</a>.</p>
+      <details id="sec-rejected-utf-inf" no-open="true">
+        <summary>UTF-Infinity</summary>
+        <p>What if we naively roll the <q>start bits</q> over into further bytes?</p>
+
+        <h3>Source</h3>
+        <p>
+          Mashpoe: <i><a href="https://www.youtube.com/watch?v=tAMDtH9uq1Y">Expanding the UTF-8 Character Set to Infinity</a></i>
+        </p>
+
+        <h3>TLDR / Examples</h3>
+        <table>
+          <tbody>
+            <tr>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111110</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111110</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>17</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>18</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+              <td>...</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Properties</h3>
+
+        <h4>Bit counts</h4>
+        <p>Effectively, every jump from <code>8k-1</code>-byte code units to <code>8k</code>-byte code units the encoding inserts another blank byte after the start bytes, by which 8 minus 1 equals 7 bits of content are gained in an ASCII-looking byte, instead of appending a continuation byte by which 6 minus 1 equals 5 bits of content are gained.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>code unit length</th>
+              <th>number of content bits</th>
+              <th>number of mandatory content bits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>n = 1</code></td>
+              <td><code>7</code></td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>n ≠ 8k</code></td>
+              <td><code>5n+1 + 2⌊n/8⌋</code></td>
+              <td><code>5</code></td>
+            </tr>
+            <tr>
+              <td><code>n = 8k</code></td>
+              <td><code>5n+1 + 2⌊n/8⌋</code></td>
+              <td><code>7</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Information Rate</h4>
+        <p>For an <code>n</code>-byte code unit the information rate is UTF-8000's information rate plus <code>2⌊n/8⌋ / (8n)</code>.</p>
+        <p>I'm not working it out fully, but I can tell that this leads to a sawtooth-y profile as a graph of information rate against <code>n</code>. Therefore, counterintuitively, longer code units can have better efficiency than shorter ones.</p>
+
+        <h4>No self-synchronization</h4>
+        <p>
+          In the 8-byte code unit example, there is no way to distinguish the second byte <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxxxx</span></code> from an ASCII byte <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code
+          >. This generalizes to <code>8n</code>-byte code units.
+        </p>
+        <p>
+          In the 15-byte code unit example, there is no way to distinguish the second byte, <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111110</span></code> from the first byte of a 7-byte code unit. This generalizes to <code>8n-1</code>-byte code units.
+        </p>
+        <p>
+          In the 16-byte code unit example, there is no way to distinguish the second byte, <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111111</span></code> from the first byte of an 8-byte code unit. This generalizes such that if one seeks to any <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">11111111</span></code> byte, one has no idea if this is the first byte of a code unit or not.
+        </p>
+        <p>This list is non-exhaustive.</p>
+
+        <h4>Self-punctuation</h4>
+        <p>This is the property that Mashpoe clearly prioritized preserving, however the approach was too myopic and did not lead to preserving other properties of interest.</p>
+
+        <h4><q>Patented</q></h4>
+        <p>Mashpoe jokes (?) in the video that he owns the patent to this encoding scheme.</p>
+        <p>Regardless of whether he is joking or not, I nonetheless find it reprehensible that someone <em>could</em> (at least try to) copyright / patent the correct way to extend UTF-8. It would be like trying to copyright the right solution to a mathematics equation, or a prime number! Therefore I am being quite loud in the copylefting of UTF-8000 in the <a href="#sec-licensing">licensing section</a>. Everyone benefits from shared, free-as-in-freedom, open ideas.</p>
+
+        <h3>Verdict</h3>
+        <p>In my view the loss of self-synchronization is a fatal detriment.</p>
+        <p>The formula for the number of content bits has predictable but irritable jumps, which lead to counterintuitive information rates.</p>
       </details>
 
       <details id="sec-rejected-ucs-x" open="true">
@@ -1944,8 +2172,6 @@
         The Python reference implementation is licensed under
         <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GPL-3.0-only</a>, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>. Any implementation of decoding and encoding UTF-8000 is going to look somewhat similar to this codebase of course; don't worry if you want to use MIT or BSD or something else in a clean-room rewrite.
       </p>
-      <p>While Mashpoe may or may not be joking about patenting his extension of UTF-8, I nonetheless find it reprehensible that someone <em>could</em> (at least try to) copyright / patent the correct way to extend UTF-8. It's be like trying to copyright the right solution to an equation, or a prime number! Therefore I am being quite loud in copylefting of UTF-8000. Everyone benefits from shared open ideas.</p>
-      <p>:)</p>
     </details>
 
     <details id="sec-thanks" no-open="true">
