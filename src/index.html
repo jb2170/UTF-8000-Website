@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en-gb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="utf-8000.jb2170.com" />
+    <meta property="og:url" content="https://utf-8000.jb2170.com/" />
+    <meta property="og:image" content="https://utf-8000.jb2170.com/images/utf-8000-info-example.png" />
+    <meta property="og:image:alt" content="preview" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:title" content="UTF-8000" />
+    <meta property="og:description" content="Unlimited UTF-8!" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>UTF-8000</title>
+  </head>
+  <body>
+    <h1>UTF-8000</h1>
+    <p>Unlimited UTF-8!</p>
+    <p>ASCII ⊆ UTF-8 ⊆ UTF-8000</p>
+    <p>No special cases introduced.</p>
+    <details open="true">
+      <summary>TLDR Examples</summary>
+      <table>
+        <thead>
+          <tr>
+            <th>n-bytes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ASCII</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">0</code><code class="utf-8000-optional-content-bits">xxxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>UTF-8</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">110</code><code class="utf-8000-mandatory-content-bits">xxxx</code
+                ><code class="utf-8000-optional-content-bits">x</code></code
+              >
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">1110</code><code class="utf-8000-mandatory-content-bits">xxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">x</code
+                ><code class="utf-8000-optional-content-bits">xxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">11110</code><code class="utf-8000-mandatory-content-bits">xxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xx</code
+                ><code class="utf-8000-optional-content-bits">xxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>UTF-8000</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">111110</code><code class="utf-8000-mandatory-content-bits">xx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xxx</code
+                ><code class="utf-8000-optional-content-bits">xxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">1111110</code><code class="utf-8000-mandatory-content-bits">x</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xxxx</code
+                ><code class="utf-8000-optional-content-bits">xx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">11111110</code><code class="utf-8000-optional-content-bits"></code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xxxxx</code
+                ><code class="utf-8000-optional-content-bits">x</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">0</code
+                ><code class="utf-8000-mandatory-content-bits">xxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">x</code
+                ><code class="utf-8000-optional-content-bits">xxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">110</code
+                ><code class="utf-8000-mandatory-content-bits">xxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xx</code
+                ><code class="utf-8000-optional-content-bits">xxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                <code class="utf-8000-start-bits">11111111</code><code class="utf-8000-optional-content-bits"></code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">111111</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">111111</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code><code class="utf-8000-start-bits">110</code
+                ><code class="utf-8000-mandatory-content-bits">xxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-mandatory-content-bits">xx</code
+                ><code class="utf-8000-optional-content-bits">xxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+            <td>...</td>
+            <td>
+              <code class="utf-8000-byte utf-8000-continuation-byte">
+                <code class="utf-8000-continuation-prefix-bits">10</code
+                ><code class="utf-8000-optional-content-bits">xxxxxx</code>
+              </code>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        The 22-byte example here has many start bytes, demonstrating the power of UTF-8000. There is nothing special
+        about it.
+      </p>
+      <p>
+        There are only two special cases, both of which are inherited from UTF-8: ASCII and 2-byte UTF-8. See
+        <a href="#properties">#properties</a>
+      </p>
+    </details>
+    <details id="properties" open="true">
+      <summary>Properties of UTF-8000</summary>
+      <p>Preserved from UTF-8</p>
+      <p>ASCII (1 byte UTF-8000) has 7 bits of content and 0 mandatory content bits.</p>
+      <p>
+        2-byte UTF-8 (2 byte UTF-8000) has 11 bits of content (which is not a special case), but only 4 mandatory
+        content bits.
+      </p>
+    </details>
+    <details open="true">
+      <summary>Glossary / Byte Anatomy / Implications</summary>
+      <table>
+        <thead>
+          <tr>
+            <th>Term</th>
+            <th>Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><p>Code Unit</p></td>
+            <td>
+              <p>A collection of UTF-8000 bytes that encode a single codepoint.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>First Byte</p></td>
+            <td>
+              <p>
+                The first, one and only, byte that begins a UTF-8000 Code Unit. We can tell that a byte is a First Byte
+                because it does not begin with the Continuation Byte's characterizing prefix
+                <code class="utf-8000-bits"><code class="utf-8000-continuation-prefix-bits">10</code></code
+                >. This is part of what makes UTF-8 and UTF-8000 Self Synchronizing; we know where a Code Unit starts.
+              </p>
+              <p>This term is also known as <u>First Start Byte</u>.</p>
+              <p>This term is mutually exclusive with Continuation Byte.</p>
+              <p>This term is <b>not</b> synonymous with Start Byte.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Continuation Byte</p></td>
+            <td>
+              <p>
+                A byte beyond the <u>First Byte</u> of a UTF-8000 Code Unit. It is characterized by its highest bits
+                being
+                <code class="utf-8000-bits"><code class="utf-8000-continuation-prefix-bits">10</code></code>
+                giving it the form
+                <code class="utf-8000-byte utf-8000-continuation-byte">
+                  <code class="utf-8000-continuation-prefix-bits">10</code
+                  ><code class="utf-8000-y-bits">yyyyyy</code></code
+                >. The <code class="utf-8000-bits"><code class="utf-8000-y-bits">y</code></code> bits may be Start Bits,
+                Content Bits, or Mandatory Content Bits depending on the context of where that Continuation Byte is in
+                its Code Unit.
+              </p>
+              <p>This term is mutually exclusive with First Byte.</p>
+              <p>
+                The continuation prefix bits are highlighted in
+                <span class="utf-8000-continuation-prefix-bits">bright cyan</span>.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Start Byte</p></td>
+            <td>
+              <p>
+                A byte containing one or more <u>Start Bits</u>. Start Bytes exist contiguously at the beginning of a
+                UTF-8000 Code Unit. The power of UTF-8000 is that we can have many Start Bytes, to achieve arbitrary
+                Code Unit lengths, to encode arbitrarily large Codepoints.
+              </p>
+              <p>
+                Every Code Unit has at least one start byte. The first Start Byte is the First Byte, and is followed by
+                zero or more Continuation Bytes that are Start Bytes. Because a UTF-8000 Code Unit can have multiple
+                Start Bytes, this term is <b>not</b> synonymous with First Byte.
+              </p>
+              <p>
+                In restricting to only UTF-8 without UTF-8000, this term
+                <em>is</em> synonymous with First Byte. This is because UTF-8 Code Units only require one Start Byte,
+                whether using up to 4 bytes in the current UTF-8 standard (<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://datatracker.ietf.org/doc/html/rfc3629"
+                  >RFC 3629</a
+                >
+                (2003)), or using up to 6 bytes in former standards (<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://datatracker.ietf.org/doc/html/rfc2044"
+                  >RFC 2044</a
+                >
+                (1996) and
+                <a target="_blank" rel="noopener noreferrer" href="https://datatracker.ietf.org/doc/html/rfc2279"
+                  >RFC 2279</a
+                >
+                (1998)).
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Start Bits</p></td>
+            <td>
+              <p>
+                The block of Y Bits at the beginning of a UTF-8000 Code Unit that are all
+                <code class="utf-8000-bits"><code class="utf-8000-start-bits">1</code></code> bits, and the first
+                <code class="utf-8000-bits"><code class="utf-8000-start-bits">0</code></code> bit that terminates these
+                ones. To be clear, the Start Bits includes this terminating zero bit.
+              </p>
+              <p>
+                For an ASCII Code Unit the Start Bits sequence is
+                <code class="utf-8000-bits"><code class="utf-8000-start-bits">0</code></code
+                >, a single zero bit in the highest bit of the First Byte. This characterizes ASCII bytes into the form
+                <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                  <code class="utf-8000-start-bits">0</code
+                  ><code class="utf-8000-optional-content-bits">xxxxxxx</code></code
+                >.
+              </p>
+              <p>
+                For a non-ASCII Code Unit, made of <code>n</code> bytes, the Start Bits are <code>n</code>
+                <code class="utf-8000-bits"><code class="utf-8000-start-bits">1</code></code> bits followed by a
+                terminating <code class="utf-8000-bits"><code class="utf-8000-start-bits">0</code></code> bit. Thus the
+                Start Bits sequence is of length <code>n+1</code> and is of the form
+                <code class="utf-8000-bits"><code class="utf-8000-start-bits">111...10</code></code
+                >.
+              </p>
+              <p>
+                The Start Bits are part of what makes UTF-8 and UTF-8000 Self Synchronizing; we know how many bytes we
+                expect in a Code Unit.
+              </p>
+              <p>This term is mutually exclusive with <u>Content Bits</u>.</p>
+              <p>These bits are highlighted in <span class="utf-8000-start-bits">bright magenta</span>.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Content Byte</p></td>
+            <td>
+              <p>A byte containing one or more Content Bits.</p>
+              <p>
+                A byte being a Content Byte does not imply that it is a Continuation Byte, as for example a 3-byte Code
+                Unit begins with
+                <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                  <code class="utf-8000-start-bits">1110</code
+                  ><code class="utf-8000-mandatory-content-bits">xxxx</code></code
+                >, which is not a Continuation Byte, and contains 4 Content Bits.
+              </p>
+              <p>
+                A byte being a Continuation Byte does not imply that it is a Content Byte, as for example a 22-byte Code
+                Unit contains
+                <code class="utf-8000-byte utf-8000-continuation-byte">
+                  <code class="utf-8000-continuation-prefix-bits">10</code
+                  ><code class="utf-8000-start-bits">111111</code></code
+                >
+                as its second byte.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Content Bits</p></td>
+            <td>
+              <p>
+                The block of Y bits in a Code Unit beyond the <u>Start Bits</u>, in which the <u>Codepoint</u>'s binary
+                bits are stored. For example a 2-byte <u>Code Unit</u>, which has the form
+                <code class="utf-8000-byte utf-8000-non-continuation-byte">
+                  <code class="utf-8000-start-bits">110</code><code class="utf-8000-mandatory-content-bits">xxxx</code
+                  ><code class="utf-8000-optional-content-bits">x</code></code
+                >
+                <code class="utf-8000-byte utf-8000-continuation-byte">
+                  <code class="utf-8000-continuation-prefix-bits">10</code
+                  ><code class="utf-8000-optional-content-bits">xxxxxx</code></code
+                >, has 11 <u>Content Bits</u>.
+              </p>
+              <p>This term is mutually exclusive with <u>Start Bits</u>.</p>
+              <p>
+                These bits are highlighted in <span class="utf-8000-optional-content-bits">lime</span>, or
+                <span class="utf-8000-mandatory-content-bits">bright lime</span> if they are
+                <u>Mandatory Content Bits</u>.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Mandatory Content Byte</p></td>
+            <td>
+              <p>A byte containing one or more <u>Mandatory Content Bits</u>.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Mandatory Content Bits</p></td>
+            <td>
+              <p>
+                The first zero, four, or five <u>Content Bits</u> of a <u>Code Unit</u> in which there must be at least
+                one <code class="utf-8000-bits"><code class="utf-8000-mandatory-content-bits">1</code></code> bit, lest
+                the bytes be an <u>Overlong Encoding</u>, which is forbidden.
+              </p>
+              <p>For ASCII there are none.</p>
+              <p>For 2-byte UTF-8000 there are four.</p>
+              <p>Otherwise for n-byte UTF-8000, where <code>n &gt; 2</code>, there are five. XXX EXPLAIN WHY.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>Overlong Encoding</p></td>
+            <td>
+              <p>Forbidden XXX.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Anatomy</h3>
+      <h3>Implications</h3>
+    </details>
+    <details open="true">
+      <summary>Derivation</summary>
+      <p>Couple of ways</p>
+    </details>
+    <details open="true">
+      <summary>Encoding</summary>
+      <p>Couple of ways</p>
+    </details>
+    <details open="true">
+      <summary>Decoding</summary>
+      <p>Couple of ways</p>
+    </details>
+    <details>
+      <summary>Signed Variant</summary>
+      <p>Mandatory Content Bits would mean at least one zero bit lest overlong.</p>
+    </details>
+    <details>
+      <summary>Rejected Alternatives</summary>
+      <p>Comparison</p>
+    </details>
+    <details open="true">
+      <summary>Naming</summary>
+      <h3>UTF-8000</h3>
+      <p>
+        Inspired by Python 3's development codenames in
+        <a href="https://peps.python.org/pep-3000/#naming" target="_blank" rel="noopener noreferrer">PEP 3000</a>.
+      </p>
+      <h4>Pros</h4>
+      <p>
+        The <q>thousand</q> in <q>UTF eight thousand</q> sounds big and futuristic. This encoding scheme should also
+        last for a thousand years plus!
+      </p>
+      <h4>Cons</h4>
+      <p>The zeros are repetitive.</p>
+      <p>
+        Having to remember exactly three zeros to make <q>8000</q>. Some people may read it as eight hundred, or eighty
+        thousand etc.
+      </p>
+      <p>
+        The inspiration logic doesn't exactly match up with Python because Python was moving from Python 2 to Python 3,
+        not Python 3 to Python 3000, whereas we're going from UTF-8 to UTF-8000.
+      </p>
+      <h3>UTF-8K</h3>
+      <p>
+        Inspired by another of Python 3's development codenames <q>Py3K</q> / <q>Py3k</q>, we could use UTF-8K, the
+        <q>K</q> capitalized like the <q>UTF</q>. It's also shorter than <q>8000</q>.
+      </p>
+      <h3>UTF-8 and Knuckles</h3>
+      <p>
+        The <q>K</q> in <q>UTF-8K</q> reminds me of Sonic 3 &amp; Knuckles, sometimes abbreviated to <q>S3K</q>. Sonic 3
+        &amp; Knuckles is a XXX of Sonic 3 and Sonic &amp; Knuckles using lock-on technology. In a similar way UTF-8
+        extends from ASCII, and UTF-8000 continues this extension.
+      </p>
+      <h4>Pros</h4>
+      <p>Knuckles is cool.</p>
+      <h4>Cons</h4>
+      <p>SEGA might not be happy, though they do seem nicer than Nintendo with respect to fanart.</p>
+      <p>
+        The hardest work of extending from ASCII has already been achieved by UTF-8. Is UTF-8<em>000</em> lock-on? Not
+        really.
+      </p>
+    </details>
+    <details open="true">
+      <summary>Logo</summary>
+      <p>UTF-8 does not have a logo. Therefore I had a bit of fun designing a logo for UTF-8000.</p>
+      <p>
+        It's an eagle with <q>UTF</q> written across its wings and chest. The roman numerals for <q>8</q>, VIII, flank
+        its head. Below its claws it holds a fasces, wrapped with a UTF-8000 continuation byte of the form
+        <code>10XXXXXX</code>. This represents the unified strength of a bundle of UTF-8000 continuation bytes, which
+        makes us unstoppable in conquering the entire integers, in the name of annexing them into Unicode codepoints,
+        encoded as UTF-8000 bytes. The central fascis which sticks out perhaps represents the first start byte of a
+        UTF-8000 sequence. This byte looks different from its continuation bytes, and has the power to start a sequence,
+        which is represented by the wielding of the axe.
+      </p>
+      <img src="/utf-8000-logo.png" style="max-width: 100%; width: 256px" />
+      <p>The favicon for this website is just the roman numerals VIII.</p>
+      <img src="/favicon.ico" style="max-width: 100%" />
+      <p>
+        The Git repo containing these images is available on GitHub as
+        <a href="https://github.com/UTF-8000/UTF-8000-Logo">UTF-8000/UTF-8000-Logo</a>.
+      </p>
+    </details>
+    <details open="true">
+      <summary>Licensing / Copyright (Copyleft)</summary>
+      <p>
+        As creator of UTF-8000 I want the liberty with which UTF-8000 can be used to be no less permissible than UTF-8
+        and ASCII before it. This belongs to everyone. Live Free or Die.
+      </p>
+      <p>
+        This website is licensed under
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer"
+          >CC-BY-NC-SA-4.0</a
+        >, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Website">UTF-8000/UTF-8000-Website</a>.
+      </p>
+      <p>
+        The logo / images are licensed under
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer"
+          >CC-BY-NC-SA-4.0</a
+        >, available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Logo">UTF-8000/UTF-8000-Logo</a>.
+      </p>
+      <p>
+        The Python reference implementation is licensed under
+        <a href="https://www.gnu.org/licenses/gpl-3.0.txt" target="_blank" rel="noopener noreferrer">GPL-3.0-only</a>,
+        available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>. Any
+        implementation of decoding and encoding UTF-8000 is going to look somewhat similar to this codebase of course;
+        don't worry if you want to use MIT or BSD or something.
+      </p>
+      <p>
+        Whilst Mashpoe may or may not be joking about copyrighting his silly extension of UTF-8, I nonetheless find it
+        reprehensible that someone <em>could</em> (at least try to) copyright / patent the correct way to extend UTF-8.
+        It's be like trying to copyright the right solution to an equation, or a prime number! Therefore I am being
+        quite loud in copylefting of UTF-8000. Everyone benefits from shared open ideas.
+      </p>
+      <p>:)</p>
+    </details>
+  </body>
+</html>
