@@ -21,6 +21,7 @@
     <p>Unlimited UTF-8!</p>
     <p>ASCII ⊆ UTF-8 ⊆ UTF-8000</p>
     <p>No special cases introduced.</p>
+    <p>All properties preserved.</p>
     <details id="sec-tldr" no-open="true">
       <summary>TLDR / Examples</summary>
       <table>
@@ -1350,6 +1351,7 @@
                               `----...    n byte UTF-8000 start byte
       </code></pre>
       <p>Without the color highlighting this is how most people think about UTF-8: a start byte whose prefix of <code>n</code> <code>1</code> bits and a terminating <code>0</code> bit provides both self-synchronization and self-punctuation, and continuation bytes using a short prefix of <code>10</code> for space-efficient encoding. This makes sense for a small number of bytes, but the trick to unlock a perspective of infinite extensibility is to split this tree into the self-synchronization part and self-punctuation part; ie we un-product those prefix-free codes. Failing to do this leads to the rejected alternative <a href="#sec-rejected-utf-infinity">UTF-Infinity</a>.</p>
+      <p>We could further split hairs and see the first bit of the XXX 11 10 as a UTF-8 mode, highlights using upper 128.</p>
     </details>
 
     <details id="sec-encoding" open="true">
@@ -2046,10 +2048,43 @@
         <summary>UCS-X</summary>
 
         <h3>TLDR / Examples</h3>
+
+        <p>XXX 16</p>
+        <table>
+          <tbody>
+            <tr>
+              <td>4</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-frame">110110</span><span class="utf-16000-bits-marker">11</span><span> </span><span class="utf-16000-bits-marker">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-frame">110110</span><span class="utf-16000-bits-marker">11</span><span> </span><span class="utf-16000-bits-marker">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-frame">110110</span><span class="utf-16000-bits-marker">11</span><span> </span><span class="utf-16000-bits-marker">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
       </details>
 
-      <details id="sec-rejected-perl-utf-8" no-open="true">
-        <summary>Perl UTF-8</summary>
+      <details id="sec-rejected-perl-utf8" no-open="true">
+        <summary>Perl utf8</summary>
         <p>
           Use <em>up to</em> 7 bytes to encode up to 36 bits of information in the sane way, in order to encode 32-bit integers (and a little beyond). To encode 64-bit integers, use a special-case <em>fixed</em> 13-byte code unit starting with <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code
           >.
@@ -2163,7 +2198,7 @@
         <p>Because Perl only supports up to 64-bit numbers without a specialized <code>bigint</code> module, it was sensible of them to cap their extension of UTF-8 to a finite number of bytes. It's not the prettiest however, and I'm not sure why they chose 13 bytes when 12 would suffice. CPU alignment if they don't store the predictable start byte of all 1s?</p>
 
         <h3>Verdict</h3>
-        <p>Inextensible, providing only one special case beyond 7-byte <q>UTF-8</q> to encode 64-bit numbers, and is thus not widely known or supported.</p>
+        <p>Inextensible, providing only one special case beyond 7-byte <q>UTF-8</q> to encode 64-bit numbers, and is thus not widely known or supported. Also, they refer to it as <q>utf8</q> instead of <q>UTF-8</q>, though this is pedantry.</p>
       </details>
 
       <details id="sec-utf-32k" no-open="true">
