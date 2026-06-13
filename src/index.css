@@ -17,12 +17,17 @@ td {
   vertical-align: top;
 }
 
-p, li {
+p,
+li {
   max-width: 80ch;
 }
 
 img {
   max-width: 100%;
+}
+
+details details {
+  margin-inline-start: 2ch;
 }
 
 details summary {
