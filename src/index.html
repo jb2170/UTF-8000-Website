@@ -909,9 +909,13 @@
       <p>The <a href="#def-content-bits">content bits</a> of code units are also monotonically-increasing-ly ordered with respect to codepoint value.</p>
       <p>Combining these three things together means that <code>strcmp(3)</code>, the C stdlib string comparing function, works the same way on UTF-8000 bytes as it does on UTF-8, as it does on ASCII, effectively comparing the encoded codepoint values against each other. Nice!</p>
 
+      <h3>No Endianness</h3>
+      <p>The <q>quantum</q> of ASCII, UTF-8, and UTF-8000 is a single byte. This makes life a breeze! There is no need for a concept of endianness for UTF-8000.</p>
+      <p>UTF-16 however has a quantum of two bytes, 16-bit code units. When writing the codewords in octet bytes, should the octet containing the most significant digits or least significant digits be written first? Big endian, or little endian? This choice gives UTF-16 two variants, UTF-16-BE and UTF-16-LE. If one cannot embed into the metadata of a stream which endianness is pre-agreed upon, one may wish to use a BOM which is discussed below.</p>
+
       <h3>BOM Support</h3>
-      <p>I've never actively used BOMs myself so I've only put 30 seconds of thought into this section so far.</p>
-      <p>As far as I'm aware we don't break <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> support for UTF-8, though we may wish to have a different BOM to strictly distinguish UTF-8 from UTF-8000. Maybe UTF-8000 could have multiple BOMs, one for each integer N greater than or equal to four, to indicate to a decoder the maximum expected code unit length.</p>
+      <p>A <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> (BOM) is used at the start of an encoded text stream to indicate what encoding is used. I have never actively used BOMs myself so I've only put a bit of thought into this section.</p>
+      <p>As far as I'm aware we don't break BOM support for UTF-8, though we may wish to have a different BOM to strictly distinguish UTF-8 from UTF-8000. Maybe UTF-8000 could have multiple BOMs, one for each integer N greater than or equal to four, to indicate to a decoder the maximum expected code unit length.</p>
       <p>
         One of the reasons why <code>U+FFFE</code> is not a valid Unicode Scalar Value is because <code>0xFE 0xFF</code> is the BOM for UTF-16. Since UTF-16 code units are two bytes wide, one may read either <code>0xFE 0xFF</code> or <code>0xFF 0xFE</code> depending on endianness. To make it clear that <code>0xFF 0xFE</code> implies <q>correct for endianness</q> and cannot be mistaken for a legitimate character, <code>U+FFFE</code> is designated as <code>&lt;noncharacter-FFFE&gt;</code>. We are relieved in that neither <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span></code> nor <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111110</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">111111</span></code> are valid UTF-8000 sequence extracts, ie UTF-8000 does not introduce incompatibilities with UTF-16.
       </p>
@@ -1356,21 +1360,14 @@
     <details id="sec-decoding" open="true">
       <summary>Decoding</summary>
       <p>Couple of ways</p>
+      <img src="/overlong-window.gif" />
       <h3>Error recovery</h3>
     </details>
 
-    <details id="sec-further-ideas" open="true">
-      <summary>Further Ideas and Inspiration</summary>
-
-      <details id="sec-signed-variant" open="true">
-        <summary>Signed Variant</summary>
-        <p>Mandatory Content Bits would mean at least one zero bit lest overlong.</p>
-        <p>Do we lose strcmp?</p>
-      </details>
-
-      <details id="sec-utf-32k" open="true">
-        <summary>UTF-32K</summary>
-      </details>
+    <details id="sec-signed-variant" open="true">
+      <summary>Signed Variant</summary>
+      <p>Mandatory Content Bits would mean at least one zero bit lest overlong.</p>
+      <p>Do we lose strcmp?</p>
     </details>
 
     <details id="sec-rejected-alternatives" open="true">
@@ -2051,8 +2048,8 @@
         <h3>TLDR / Examples</h3>
       </details>
 
-      <details id="sec-rejected-perl-utf8" no-open="true">
-        <summary>Perl UTF8</summary>
+      <details id="sec-rejected-perl-utf-8" no-open="true">
+        <summary>Perl UTF-8</summary>
         <p>
           Use <em>up to</em> 7 bytes to encode up to 36 bits of information in the sane way, in order to encode 32-bit integers (and a little beyond). To encode 64-bit integers, use a special-case <em>fixed</em> 13-byte code unit starting with <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code
           >.
@@ -2167,6 +2164,67 @@
 
         <h3>Verdict</h3>
         <p>Inextensible, providing only one special case beyond 7-byte <q>UTF-8</q> to encode 64-bit numbers, and is thus not widely known or supported.</p>
+      </details>
+
+      <details id="sec-utf-32k" no-open="true">
+        <summary>UTF-32K</summary>
+        <p>In the same manner that ASCII is extended by UTF-8 and UTF-8000, UTF-32 could also be extended to be a multi-<q>byte</q> (32-bit chunk) encoding scheme.</p>
+        <p>This is not a rejected alternative to UTF-8000 for expanding UTF-8 perse, but a rejected idea for expanding UTF-32 in a similar style, which is why it's grouped into this rejected ideas section. It is nonetheless worth a mention, as it demonstrates how UTF-8000 is just one instance of a general family of self-synchronizing self-punctuating codes.</p>
+
+        <h3>TLDR / Examples</h3>
+        <p>We could extend UTF-32 either in the style of UTF-8000, treating the one-<q>byte</q> code units as a special case occupying the lower 31 bits...</p>
+        <table>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxx_xxxxxxxx_xxxxxxxx_xxxxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>...or in the style of <a href="#sec-rejected-ascvi">ASCVI</a>, with no special cases and the one-<q>byte</q> code units occupying the lower 30 bits.</p>
+        <table>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">xxxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Properties</h3>
+        <p>Mutatis mutandis, the properties of UTF-8000 and ASCVI apply. We only make further remarks on a couple of properties.</p>
+
+        <h4>Endianness</h4>
+        <p>Like UTF-16, and unlike UTF-8 and UTF-8000, UTF-32 has endianness, its quantum being a whopping four bytes.</p>
+
+        <h4>Information Rate</h4>
+        <p>Whilst the ASCVI-style UTF-32K has an information rate of <code>30 / 32 = 93.75%</code>, it is very inefficient for low-value codepoints, with the highest bytes most often being zeros. UTF-8000 has a much finer telescopic expansion mechanism at the byte level, compared to UTF-32 at a four-byte level.</p>
+
+        <h3>Verdict</h3>
+        <p>Not our greatest priority.</p>
+        <p>UTF-32 is hardly ever used for transmission or storage due to its inefficiency and endianness. Its main use is for when one decodes UTF-8 or UTF-16 to <code>int32_t</code> integers (UTF-32) for use inside a program.</p>
       </details>
 
       <details id="sec-rejected-zigzag" open="true">
