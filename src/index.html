@@ -1378,7 +1378,6 @@
       <details id="sec-utf-32k" no-open="true">
         <summary>UTF-32K</summary>
         <p>In the same manner that ASCII is extended by UTF-8 and UTF-8000, UTF-32 could also be extended to be a multi-<q>byte</q> (32-bit chunk) encoding scheme.</p>
-        <p>This is not a rejected alternative to UTF-8000 for expanding UTF-8 perse, but a rejected idea for expanding UTF-32 in a similar style, which is why it's grouped into this rejected ideas section. It is nonetheless worth a mention, as it demonstrates how UTF-8000 is just one instance of a general family of self-synchronizing self-punctuating codes.</p>
 
         <h3>TLDR / Examples</h3>
         <p>We could extend UTF-32 either in the style of UTF-8000, treating the one-<q>byte</q> code units as a special case occupying the lower 31 bits...</p>
@@ -1399,6 +1398,9 @@
                 <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
               </td>
             </tr>
+            <tr>
+              <td>...</td>
+            </tr>
           </tbody>
         </table>
         <p>...or in the style of <a href="#sec-rejected-ascvi">ASCVI</a>, with no special cases and the one-<q>byte</q> code units occupying the lower 30 bits.</p>
@@ -1418,6 +1420,9 @@
               <td>
                 <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxxx_xxxxxxxx_xxxxxxxx_xxxxxxxx</span></code>
               </td>
+            </tr>
+            <tr>
+              <td>...</td>
             </tr>
           </tbody>
         </table>
