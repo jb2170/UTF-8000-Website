@@ -282,10 +282,7 @@
       <p>See the <a href="#sec-glossary">glossary</a> for more information on the definitions of the terms.</p>
       <p>Byte number four is exciting! It is a continuation byte, a start byte, the final start byte, has content bits, and has only some of the mandatory content bits, which are straddled across the final start byte and first non-start byte.</p>
       <img src="/code-unit-anatomy.blanchedalmond.png" />
-      <p>
-        The main contribution of UTF-8000's specification is clarity on splitting the highest bits of the
-        <u>first byte</u> of UTF-8 <u>code units</u> into <u style="color: cyan">self-synchronization bits</u> and <u style="color: magenta">start bits</u>, and then making it clear how to stripe the <u>start bits</u> across the <u>continuation bytes</u> if needed, to achieve arbitrarily large <u>code units</u>.
-      </p>
+      <p>The main contribution of UTF-8000's specification is clarity on splitting the highest bits of the first byte of UTF-8 code units into <u style="color: cyan">self-synchronization bits</u> and <u style="color: magenta">start bits</u>, and then making it clear how to stripe the start bits across the continuation bytes if needed, to achieve arbitrarily large code units.</p>
     </details>
 
     <details id="sec-glossary" no-open="true">
