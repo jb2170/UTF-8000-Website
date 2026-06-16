@@ -132,13 +132,3 @@ details summary {
 .table-byte-never {
   background-color: tomato;
 }
-
-.utf-16000-bits-marker {
-  font-weight: bold;
-  color: crimson;
-}
-
-.utf-16000-bits-frame {
-  font-weight: bold;
-  color: pink;
-}
