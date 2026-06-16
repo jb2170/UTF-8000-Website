@@ -78,6 +78,16 @@ details summary {
   color: white;
 }
 
+.utf-16000-bits-surrogate-frame {
+  font-weight: bold;
+  color: pink;
+}
+
+.utf-16000-bits-surrogate-plane {
+  font-weight: bold;
+  color: crimson;
+}
+
 .byte-table {
   font-family: monospace;
   font-size: large;

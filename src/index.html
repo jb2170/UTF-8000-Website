@@ -1372,6 +1372,298 @@
         <p>Do we lose strcmp?</p>
       </details>
 
+      <details id="sec-utf-16k" no-open="true">
+        <summary>UTF-16K</summary>
+        <p>Could we apply some techniques from this document to also extend UTF-16? Yes, but at the cost of forbidding more codepoints from being encoded similar to the surrogate range <code>U+D800</code> to <code>U+DFFF</code>.</p>
+
+        <p>UTF-16 is a bit messy in its existing two-byte and four-byte form, but we can clean this up in a mostly forwards-compatible manner by using <a href="#sec-rejected-ascvi">ASCVI</a>-on-UTF-16. We assume the use of big-endian UTF-16 in this section.</p>
+
+        <h3>Source</h3>
+        <p>Myself: Realizing that I can challenge the UTF-16 extensions proposed by <a href="#sec-rejected-ucs-x">UCS-X</a>.</p>
+
+        <h3>TLDR / Examples</h3>
+        <table>
+          <tbody>
+            <tr>
+              <td>2</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-content-optional">xxxxxxxx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-mandatory">xx</span><span> </span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-mandatory">xx</span><span> </span><span class="utf-8000-bits-content-mandatory">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-mandatory">xx</span><span> </span><span class="utf-8000-bits-content-mandatory">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">1110</span><span class="utf-8000-bits-content-mandatory">x</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-mandatory">xx</span><span> </span><span class="utf-8000-bits-content-mandatory">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>72</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">11111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-start">11</span><span> </span><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-mandatory">xx</span><span> </span><span class="utf-8000-bits-content-mandatory">xxxxxxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code>
+              </td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>136</td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-start">11111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-start">11</span><span> </span><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">11111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-start">11</span><span> </span><span class="utf-8000-bits-start">11111111</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-continuation">1</span><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
+              </td>
+              <td>
+                <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-mandatory">xx</span><span> </span><span class="utf-8000-bits-content-mandatory">xxxxxxxx</span></code>
+              </td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Properties</h3>
+
+        <p>
+          Two-byte UTF-16 is just the raw binary form of any 16-bit codepoint, except for the <q>surrogate</q> range <code>U+D800</code> to <code>U+DFFF</code> of size 2048 which any Unicode encoding (UTF-8, UTF-16, UTF-32) is forbidden to encode. The reason for this exclusion is because otherwise we could not distinguish <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-content-optional">110110xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code> from <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code> and <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-content-optional">110111xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code> from <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">xx</span><span> </span><span class="utf-8000-bits-content-optional">xxxxxxxx</span></code> which you'll read about below.
+        </p>
+
+        <p>
+          Four-byte UTF-16 is two surrogate codepoints stuck next to each other, one <q>high</q> in the range <code>U+D800</code> to <code>U+DBFF</code> and one <q>low</q> in the range <code>U+DC00</code> to <code>U+DFFF</code>. The real codepoint that they encode is 0x10000 added to the 20 binary digit number contained in the content bits within. For example <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-8000-bits-content-optional">00</span><span> </span><span class="utf-8000-bits-content-optional">00001000</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-content-optional">00</span><span> </span><span class="utf-8000-bits-content-optional">00101101</span></code> contains 0x0202D, which then has 0x10000 added to it, to give 0x1202D. <code>U+1202D</code> is <q>𒀭</q>, a Mesopotamian <a href="https://en.wikipedia.org/wiki/Dingir">Dingir</a>.
+        </p>
+
+        <p>
+          To expand UTF-16 indefinitely instead of being stuck with 0x110000 (1,114,112) codepoints, we employ ASCVI inside of UTF-16 surrogate pairs. UTF-8 was able to expand from 7-bit ASCII without any trouble because bytes with the highest bit set were undefined. In UTF-16 however every possible value that the content bits can take defines a codepoint. The best that we can do, so that we do not interfere with already assigned codepoints, and so that we do not malapportion too many unassigned codepoints for UTF-16K, is to constrain ourselves to a single unassigned plane, Plane 13. This plane is nice as the surrogates take the form <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-unknown">xxxxxx</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span><span class="utf-8000-bits-unknown">xx</span><span> </span><span class="utf-8000-bits-unknown">xxxxxxxx</span></code
+          >, the highest two bits of the second byte being zero. The codepoints <code>U+D0000</code> to <code>U+DFFFF</code> are to be forbidden from being encoded, just as the 2048 surrogates of the <a href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane">Basic Multilingual Plane</a> are.
+        </p>
+
+        <p>We use these four-byte containers as the quantum for UTF-16K, which uses two or more of these quanta to extend from UTF-16. The content bits encode the codepoint's binary representation, <em>without</em> adding on 0x10000 for the sake of simplicity, similar to UTF-8000.</p>
+
+        <h4>Bit counts</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>number of bytes</th>
+              <th>number of content bits</th>
+              <th>number of mandatory content bits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>n = 2</code></td>
+              <td><code>16</code></td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>n = 4</code></td>
+              <td><code>20</code></td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>n = 8</code></td>
+              <td><code>29 ( = 3.5n + 1)</code></td>
+              <td><code>9, or codepoint &ge; 0x110000</code></td>
+            </tr>
+            <tr>
+              <td><code>n = 4k ; k &ge; 3</code></td>
+              <td><code>14k + 1 ( = 3.5n + 1)</code></td>
+              <td><code>14</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Overlong checking is complicated for the jump from 4 bytes to 8 bytes, because of the 0x10000 that is added to the content bits. Either one of the highest 9 bits has a non-zero bit, or the <code>2^20</code> bit is active and one of the <code>2^m</code> bits is active with <code>16 &le; m &le; 19</code>.</p>
+
+        <h4>Information Rate</h4>
+        <p>For 2-byte UTF-16 this is technically <code>16 / 16 = 100%</code>, notwithstanding the surrogate range.</p>
+        <p>For four bytes this is <code>20 / 32 = 62.5%</code>, slightly worse than UTF-8.</p>
+        <p>For beyond four bytes this is <code>(14k+1) / (4k*8) = 7/16 + 1/(32k)</code> which approaches <code>7/16 = 43.75%</code>, not great.</p>
+        <p>Below is a comparison of the efficiencies of UTF-8 and UTF-16.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>start</th>
+              <th>end</th>
+              <th>range size</th>
+              <th>number of UTF-8 bytes</th>
+              <th>number of UTF-16 bytes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>U+0000</code></td>
+              <td><code>U+007F</code></td>
+              <td><code>0x80 = 128</code></td>
+              <td><code>1 (ASCII)</code></td>
+              <td><code>2</code></td>
+            </tr>
+            <tr>
+              <td><code>U+0080</code></td>
+              <td><code>U+07FF</code></td>
+              <td><code>0x780 = 1,920</code></td>
+              <td><code>2</code></td>
+              <td><code>2</code></td>
+            </tr>
+            <tr>
+              <td><code>U+0800</code></td>
+              <td><code>U+FFFF</code></td>
+              <td><code>0xF800 = 63,488</code></td>
+              <td><code>3</code></td>
+              <td><code>2</code></td>
+            </tr>
+            <tr>
+              <td><code>U+10000</code></td>
+              <td><code>U+10FFFF</code></td>
+              <td><code>0x100000 = 1,048,576</code></td>
+              <td><code>4</code></td>
+              <td><code>4</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>UTF-16 is more efficient than UTF-8 only at encoding <code>U+0800</code> to <code>U+FFFF</code>, aka the three-byte UTF-8 range that UTF-16 encodes using two bytes.</p>
+        <p>For ASCII, and beyond <code>U+10FFFF</code> (using UTF-8000 or UTF-16K), UTF-8000 is far more efficient (and less ugly).</p>
+
+        <h4>Self-Synchronization</h4>
+        <p>UTF-16K does not have self-synchronization at the byte level because UTF-16 does not. If one experiences a single missing byte then potentially the whole stream becomes corrupted.</p>
+        <p>
+          At the two-byte level UTF-16 has self-synchronization which UTF-16K inherits. Non-surrogate codepoints are quantum; they are to UTF-16 as ASCII is to UTF-8. Surrogate pairs provide self-synchronization with their <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span></code> and <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110111</span></code> high and low surrogate prefixes. Why the designers of UTF-16 called the former <q>high</q> and the latter <q>low</q> even though the <q>high</q> has a lower binary value than the <q>low</q> I'm not sure...
+        </p>
+        <p>
+          UTF-16K goes even deeper, using multiple surrogate pairs that usurp and shadow Plane 13, to encode arbitrary codepoints. Within the surrogate-pair self-synchronization level, within the high surrogates used to encode UTF-16K, <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-unknown">xxxxxx</span></code
+          >, ASCVI is employed, whose leading bit provides self-synchronization, with <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">0</span></code> and <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-16000-bits-surrogate-frame">110110</span><span class="utf-16000-bits-surrogate-plane">11</span><span> </span><span class="utf-16000-bits-surrogate-plane">00</span><span class="utf-8000-bits-self-sync-first">1</span></code
+          >.
+        </p>
+        <p>Therefore overall UTF-16K exhibits self-synchronization at the two-byte level, like UTF-16.</p>
+
+        <h4>Self-Punctuation</h4>
+        <p>Inherited from ASCVI.</p>
+
+        <h4>Compatibility</h4>
+        <p>UTF-16K forbids Plane 13 of Unicode, because it has no way to encode those codepoints, instead repurposing the surrogate pairs erstwhile required to encode Plane 13 for the purpose of encoding codepoints beyond 0x110000. An important question to ask regarding forwards compatibility is <q>what does an existing UTF-16 parser do if it meets a UTF-16K code unit?</q>.</p>
+        <p>In short it's Plane-13-garbage-in Plane-13-garbage-out. Each surrogate pair used in encoding a UTF-16K codepoint beyond 0x110000 would be parsed separately, but with no syntactic issues. Semantically however this would cause issues with character (codepoint) counts that would count each surrogate pair as a separate character, rather than contributing towards a single character.</p>
+        <p>I believe that this may be a better solution than UCS-X's <a href="https://ucsx.org/g16">UTF-G-16</a> which breaks syntactic compatibility with UTF-16 by repurposing low surrogates as <q>leading units</q> for UTF-G-16 6-byte code units. One could argue that UTF-G-16 is better because those bytes would be replaced with a single replacement character <q>&#xFFFD;</q> though I'm not convinced, as for example the default behavior of Python's <code>bytes.decode</code> function is <code>'strict'</code>, which raises an exception, not <code>'replace'</code> which produces replacement characters.</p>
+
+        <h3>Verdict</h3>
+        <p>
+          I don't care for UTF-16. The immature part of me says <q>let UTF-16 decay and die as the short-sighted, legacy, Windows, <code>wchar_t</code>, non-self-synchronizing-at-the-byte-level, +0x10000, garbage that it is</q>. But it will be around for a while, with <a href="https://en.wikipedia.org/wiki/UTF-16#Usage">several uses</a>, like the <a href="https://en.wikipedia.org/wiki/ISO_9660#Joliet">Joliet Filesystem</a> for my beloved Arch Linux ISOs grrr.
+        </p>
+        <p>The main reason I wrote this section was to provide an alternative to <a href="#sec-rejected-ucs-x">UCS-X</a>, so that we can use the same(ish) style as UTF-8000, and lest UCS-X or an even uglier idea come along.</p>
+        <p>The requirement to extend the list of codepoints that one is forbidden from encoding, to include Plane 13 or elsewhere, would not be an easily achieved feat.</p>
+        <p>For modern choices UTF-8 / UTF-8000 is undoubtedly the way to go.</p>
+      </details>
+
       <details id="sec-utf-32k" no-open="true">
         <summary>UTF-32K</summary>
         <p>In the same manner that ASCII is extended by UTF-8 and UTF-8000, UTF-32 could also be extended to be a multi-<q>byte</q> (32-bit chunk) encoding scheme.</p>
