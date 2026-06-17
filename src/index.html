@@ -2572,6 +2572,112 @@
           <p>Clever idea by Google, but our variable-width two's complement encoding feels more natural.</p>
         </details>
 
+        <details id="sec-rejected-owl" no-open="true">
+          <summary>Owl's <q>Corrected</q> UTF-8</summary>
+          <p>Owl suggests a <q>corrected</q> version of UTF-8 with many radical changes. Many of these are opinionated, such as removing most control codes from C0. Many are technical, such as precluding the concept of overlong encodings similarly to UTF-16, by an <code>n</code>-byte code unit decoding to the binary number stored in the content bits added to the upper bound of codepoint values from <code>n-1</code>-byte code units.</p>
+          <p>Even notwithstanding the established dominance of UTF-8, I still disagree with almost everything in the document. But, he does come the closest to discovering the structure of UTF-8000's code units.</p>
+
+          <h3>Source</h3>
+          <p>
+            Zachary Weinberg on Owl's Portfolio: <i><a href="https://www.owlfolio.org/development/corrected-utf-8/">Corrected UTF-8</a></i>
+          </p>
+
+          <h3>TLDR / Examples</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">1111110</span><span class="utf-8000-bits-content-mandatory">x</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111110</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">1110</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>...?</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            If Owl had specified the second-highest bit of his continuation start bytes to be a <code class="utf-8000-byte utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">0</span></code> instead of a <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> then he would have beat me to UTF-8000! So close, but so far.
+          </p>
+
+          <h3>Properties</h3>
+          <h4>No self-synchronization</h4>
+          <p>
+            In the 8-byte code unit example, there is no way to distinguish the second byte <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code> from the first byte of a 2-byte code unit <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">x</span></code
+            >. This generalizes beyond just 8-byte code units. This specific example could also encode <code class="utf-8000-byte"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">00001</span></code> (0xC1), which UTF-8 cannot, which may trip UTF-8 compatibility stress-tests.
+          </p>
+
+          <h4>BOM Collision</h4>
+          <p>
+            Owl acknowledges that his extension may lead to issues with the UTF-16 BOM, as (presumably?) his extension permits <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111110</span></code> (0xFF 0xFE), the little-endian UTF-16 BOM.
+          </p>
+
+          <h3>Verdict</h3>
+          <p>Owl acknowledges <q>leaving that extension for the future</q> with respect to going beyond the 6-byte old <a href="https://datatracker.ietf.org/doc/html/rfc2044">RFC 2044</a> version of UTF-8, showing humility and acknowledging his design's flaws.</p>
+          <p>I don't wish to dunk on his document too hard, but I'm greatly relieved that he failed to derive the infinite extension mechanism. It's not just for my ego's sake, but because I do not wish for UTF-8(000) to be associated with all the other junk in his specification.</p>
+        </details>
+
         <details id="sec-rejected-do-nothing" no-open="true">
           <summary>Do Nothing</summary>
           <p>Why bother publishing this now and making so much noise? As of <a href="https://www.unicode.org/versions/stats/charcountv17_0.html">Unicode Version 17.0</a>, September 9th 2025, only 299,448 of 1,114,112 (27%) codepoints have been designated.</p>
@@ -2756,6 +2862,9 @@
           <li><a href="#sec-rejected-ucs-x">UCS-X</a></li>
           <li><a href="#sec-rejected-perl-utf8">Perl utf8</a></li>
           <li><a href="#sec-rejected-signed-zigzag">Signed Variant: ZigZag Encoding</a></li>
+          <li>
+            <a href="#sec-rejected-owl">Owl's <q>Corrected</q> UTF-8</a>
+          </li>
           <li><a href="#sec-rejected-do-nothing">Do Nothing</a></li>
         </ul>
         <li><a href="#sec-reference-implementation">Reference Implementation and Tools</a></li>
