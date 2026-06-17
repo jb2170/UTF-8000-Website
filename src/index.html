@@ -1352,7 +1352,6 @@
                                 `----...    n byte UTF-8000 start byte
         </code></pre>
         <p>Without the color highlighting this is how most people think about UTF-8: a start byte whose prefix of <code>n</code> <code>1</code> bits and a terminating <code>0</code> bit provides both self-synchronization and self-punctuation, and continuation bytes using a short prefix of <code>10</code> for space-efficient encoding. This makes sense for a small number of bytes, but the trick to unlock a perspective of infinite extensibility is to split this tree into the self-synchronization part and self-punctuation part; ie we un-product those prefix-free codes. Failing to do this leads to the rejected alternative <a href="#sec-rejected-utf-infinity">UTF-Infinity</a>.</p>
-        <p>We could further split hairs and see the first bit of the XXX 11 10 as a UTF-8 mode, highlights using upper 128.</p>
       </details>
 
       <details id="sec-encoding" open="true">
