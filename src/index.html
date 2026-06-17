@@ -2562,16 +2562,6 @@
           <p>Also, they refer to it as <q>utf8</q> instead of <q>UTF-8</q> (the correct way), though this is pedantry.</p>
         </details>
 
-        <details id="sec-rejected-signed-zigzag" open="true">
-          <summary>Signed Variant: ZigZag Encoding</summary>
-          <p>Instead of two's complement</p>
-
-          <h3>TLDR / Examples</h3>
-
-          <h3>Verdict</h3>
-          <p>Clever idea by Google, but our variable-width two's complement encoding feels more natural.</p>
-        </details>
-
         <details id="sec-rejected-owl" no-open="true">
           <summary>Owl's <q>Corrected</q> UTF-8</summary>
           <p>Owl suggests a <q>corrected</q> version of UTF-8 with many radical changes. Many of these are opinionated, such as removing most control codes from C0. Many are technical, such as precluding the concept of overlong encodings similarly to UTF-16, by an <code>n</code>-byte code unit decoding to the binary number stored in the content bits added to the upper bound of codepoint values from <code>n-1</code>-byte code units.</p>
@@ -2861,7 +2851,6 @@
           <li><a href="#sec-rejected-utf-infinity">UTF-Infinity</a></li>
           <li><a href="#sec-rejected-ucs-x">UCS-X</a></li>
           <li><a href="#sec-rejected-perl-utf8">Perl utf8</a></li>
-          <li><a href="#sec-rejected-signed-zigzag">Signed Variant: ZigZag Encoding</a></li>
           <li>
             <a href="#sec-rejected-owl">Owl's <q>Corrected</q> UTF-8</a>
           </li>
