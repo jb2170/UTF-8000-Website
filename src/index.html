@@ -901,7 +901,7 @@
         </table>
         <p>All bytes except 0xC0 and 0xC1 can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear.</p>
 
-        <h3 id="sec-properties-strcmp"><code>strcmp(3)</code> Ordering</h3>
+        <h3 id="sec-properties-strcmp-ordering"><code>strcmp(3)</code> Ordering</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>
           The <a href="#def-self-synchronization-prefix">self-synchronization prefixes</a> of first bytes are monotonically-increasing-ly ordered with respect to code unit length. In other words ASCII is of length 1 and multi-byte is of length greater than 1, and <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> &lt; <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code> occupying the highest bits of UTF-8000 bytes.
@@ -1639,7 +1639,7 @@
 
           <h4>Modified <code>strcmp(3)</code> Ordering</h4>
           <p>
-            Since the negative integers are interwoven (zigzagged) between the non-negative integers via <code>zigzag</code>, we lose <a href="#sec-properties-strcmp"><code>strcmp ordering</code></a> from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000001</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
+            Since the negative integers are interwoven (zigzagged) between the non-negative integers via <code>zigzag</code>, we lose <a href="#sec-properties-strcmp-ordering"><code>strcmp</code> ordering</a> from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000001</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
             >. However, being undeterred we can supersede this fact.
           </p>
           <p>The purpose of <code>strcmp(s1, s2)</code> with respect to UTF-8000 is to quickly compare code units <code>s1</code> and <code>s2</code> as a proxy for comparing their contained codepoints, without having to actually decode the code units. For this modified version of UTF-8000 we wish to create a quick proxy for comparing the contained signed integers.</p>
@@ -2649,7 +2649,7 @@
           <h4>No <code>strcmp(3)</code> Ordering</h4>
           <p>
             Since negative integers set the highest content bit to <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">1</span></code
-            >, we lose <a href="#sec-properties-strcmp"><code>strcmp</code></a> ordering from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
+            >, we lose <a href="#sec-properties-strcmp-ordering"><code>strcmp</code></a> ordering from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
             >.
           </p>
 
@@ -3306,7 +3306,9 @@
           <li><a href="#sec-properties-self-synchronization">Self-Synchronization</a></li>
           <li><a href="#sec-properties-self-punctuation">Self-Punctuation</a></li>
           <li><a href="#sec-properties-byte-map">Byte Map</a></li>
-          <li><a href="#sec-properties-strcmp"><code>strcmp(3)</code> Ordering</a></li>
+          <li>
+            <a href="#sec-properties-strcmp-ordering"><code>strcmp(3)</code> Ordering</a>
+          </li>
           <li><a href="#sec-properties-no-endianness">No Endianness</a></li>
           <li><a href="#sec-properties-bom-support">BOM Support</a></li>
           <li><a href="#sec-properties-arbitrary-lengths-sensible-limits">Arbitrary Lengths, Sensible Limits</a></li>
