@@ -514,7 +514,7 @@
         <summary>Properties</summary>
         <p>Many of these properties of UTF-8000 are explained in detail in an appropriate section of the <a href="#sec-glossary">glossary</a> and hyperlinks to the glossary are provided.</p>
 
-        <h3 id="sec-properties-bit-counts">Bit counts</h3>
+        <h3 id="sec-properties-bit-counts">Bit Counts</h3>
         <p>The number of content bits and mandatory content bits are very predictable as a function of <code>n</code>, the length of a code unit.</p>
         <table>
           <thead>
@@ -570,7 +570,7 @@
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>See the glossary section for <a href="#def-start-bits">start bits</a> for an explanation of self-punctuation.</p>
 
-        <h3 id="sec-properties-byte-map">Byte map</h3>
+        <h3 id="sec-properties-byte-map">Byte Map</h3>
         <p>Extended from UTF-8, making use of the higher value bytes. Based off Wikipedia's <a href="https://en.wikipedia.org/wiki/UTF-8#Byte_map">UTF-8 Byte Map</a>.</p>
         <table class="byte-table">
           <tbody>
@@ -901,7 +901,7 @@
         </table>
         <p>All bytes except 0xC0 and 0xC1 can appear in a valid UTF-8000 stream. See the glossary section for <a href="#def-overlong-encoding">overlong encoding</a> for an explanation of why those two bytes never appear.</p>
 
-        <h3 id="sec-properties-strcmp">strcmp(3) ordering</h3>
+        <h3 id="sec-properties-strcmp"><code>strcmp(3)</code> Ordering</h3>
         <p>Inherited from UTF-8 and maintained in UTF-8000.</p>
         <p>
           The <a href="#def-self-synchronization-prefix">self-synchronization prefixes</a> of first bytes are monotonically-increasing-ly ordered with respect to code unit length. In other words ASCII is of length 1 and multi-byte is of length greater than 1, and <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> &lt; <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code> occupying the highest bits of UTF-8000 bytes.
@@ -1365,7 +1365,7 @@
         <summary>Decoding</summary>
         <p>Couple of ways</p>
         <img src="/overlong-window.gif" />
-        <h3>Error recovery</h3>
+        <h3>Error Recovery</h3>
       </details>
 
       <details id="sec-further-ideas" no-open="true">
@@ -1605,7 +1605,7 @@
           <h3>Properties</h3>
           <p>Self-synchronization, self-punctuation, and arbitrary code unit length have the same conclusion as base UTF-8000. Properties that differ are discussed below.</p>
 
-          <h4>Encoded range</h4>
+          <h4>Encoded Range</h4>
           <p>The content bit counts work <a href="#sec-properties-bit-counts">the same as they do for UTF-8000</a>. Below is a summary of the ranges of integers that the content bits encode.</p>
           <table>
             <thead>
@@ -1632,12 +1632,12 @@
             </tbody>
           </table>
 
-          <h4>Small integers, small code units</h4>
+          <h4>Small Integers, Small Code Units</h4>
           <p>UTF-8000 is really just a variable-width bit container with some nice properties. Provided that we obey the forbidding of overlong encoding, we can use the content bits as we please, encoding from an arbitrary alphabet to unsigned integer codewords that form the content bits.</p>
           <p>The alphabet in question for us is the signed integers, ℤ. We heuristically think of magnitude as a measure of commonness. The closer an integer is to zero, the more common it is, and thus the smaller the unsigned integer that it should be encoded as, whence the shorter the UTF-8000 code unit it occupies. This is almost common sense.</p>
           <p>We have observed that <code>zigzag</code> achieves this. Two's complements in a fixed-width register however does <em>not</em> do this, as for example in a 64-bit CPU register the number -1 is encoded as <code>111...[64]...11</code>. This is not a problem for hardware like CPUs, but we are interested in efficient encoding for transmission and storage.</p>
 
-          <h4>Modified strcmp(3) ordering</h4>
+          <h4>Modified <code>strcmp(3)</code> Ordering</h4>
           <p>
             Since the negative integers are interwoven (zigzagged) between the non-negative integers via <code>zigzag</code>, we lose <a href="#sec-properties-strcmp"><code>strcmp ordering</code></a> from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000001</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
             >. However, being undeterred we can supersede this fact.
@@ -1881,7 +1881,7 @@
 
           <p>We use these four-byte containers as the quantum for UTF-16K, which uses two or more of these quanta to extend from UTF-16. The content bits encode the codepoint's binary representation, <em>without</em> adding on 0x10000 for the sake of simplicity, similar to UTF-8000.</p>
 
-          <h4>Bit counts</h4>
+          <h4>Bit Counts</h4>
           <table>
             <thead>
               <tr>
@@ -2051,7 +2051,7 @@
           <h3>Properties</h3>
           <p>Mutatis mutandis, the properties of UTF-8000 and ASCVI apply. We only make further remarks on a couple of properties.</p>
 
-          <h4>Bit counts</h4>
+          <h4>Bit Counts</h4>
           <p>Predictable like ASCVI.</p>
           <table>
             <thead>
@@ -2164,7 +2164,7 @@
           <h3>Properties</h3>
           <p>Self-synchronization, self-punctuation, <code>strcmp</code> ordering, BOM support, and arbitrary code unit length have the same conclusion as UTF-8000. Properties that differ are discussed below.</p>
 
-          <h4>Bit counts</h4>
+          <h4>Bit Counts</h4>
           <p>The number of content bits and mandatory content bits are even more predictable than those of UTF-8.</p>
           <table>
             <thead>
@@ -2198,7 +2198,7 @@
           <p>For multi-byte code units ASCVI is more efficient, with UTF-8000's information rate tending downwards towards <code>62.5%</code>.</p>
           <p>Even if the US English alphabet had its 52 letters cut down to eg 27 Hebrew glyphs, or no letters at all, one would struggle to create a practical set of 64 glyphs for single-byte ASCVI. The tradeoff of ASCII being seven-bit, at the slight detriment of the information rate of multi-byte code units, seems worth it.</p>
 
-          <h4>Byte map</h4>
+          <h4>Byte Map</h4>
           <table class="byte-table">
             <tbody>
               <tr>
@@ -2628,7 +2628,7 @@
 
           <h3>Properties</h3>
 
-          <h4>Overlong encoding checking</h4>
+          <h4>Overlong Encoding Checking</h4>
           <p>Preventing overlong encoding requires checking that the content bits of an <code>n</code>-byte code unit encode an integer <code>z</code> from the range <code>[ -2^(5n), +2^(5n) ) \ [ -2^(5(n-1)), +2^(5(n-1)) )</code>. This may look complicated, but we can break it down into two cases:</p>
           <p>
             For <code>z &ge; 0</code>, the highest content bit of both <code>n</code>-byte and <code>n-1</code>-byte code units is <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">0</span></code
@@ -2646,7 +2646,7 @@
             >).
           </p>
 
-          <h4>No strcmp ordering</h4>
+          <h4>No <code>strcmp(3)</code> Ordering</h4>
           <p>
             Since negative integers set the highest content bit to <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">1</span></code
             >, we lose <a href="#sec-properties-strcmp"><code>strcmp</code></a> ordering from UTF-8000. For example -1 &lt; 0 but <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">1111111</span></code> &gt; <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">0000000</span></code
@@ -2828,7 +2828,7 @@
 
           <h3>Properties</h3>
 
-          <h4>Bit counts</h4>
+          <h4>Bit Counts</h4>
           <p>Effectively, every jump from <code>8k-1</code>-byte code units to <code>8k</code>-byte code units the encoding inserts another blank byte after the start bytes, by which 8 minus 1 equals 7 bits of content are gained in an ASCII-looking byte, instead of appending a continuation byte by which 6 minus 1 equals 5 bits of content are gained.</p>
           <table>
             <thead>
@@ -2861,7 +2861,7 @@
           <p>For an <code>n</code>-byte code unit the information rate is UTF-8000's information rate plus <code>2⌊n/8⌋ / (8n)</code>.</p>
           <p>I'm not working it out fully, but I can tell that this leads to a sawtooth-y profile as a graph of information rate against <code>n</code>. Therefore, counterintuitively, longer code units can have better efficiency than shorter ones.</p>
 
-          <h4>No self-synchronization</h4>
+          <h4>No Self-Synchronization</h4>
           <p>
             In the 8-byte code unit example, there is no way to distinguish the second byte <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">xxxxxxx</span></code> from an ASCII byte <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code
             >. This generalizes to <code>8n</code>-byte code units.
@@ -2874,7 +2874,7 @@
           </p>
           <p>This list is non-exhaustive.</p>
 
-          <h4>Self-punctuation</h4>
+          <h4>Self-Punctuation</h4>
           <p>This is the property that Mashpoe clearly prioritized preserving, however the approach was too myopic and did not lead to preserving other properties of interest.</p>
 
           <h4><q>Patented</q></h4>
@@ -2964,7 +2964,7 @@
           </table>
 
           <h3>Properties</h3>
-          <h4>Bit counts</h4>
+          <h4>Bit Counts</h4>
           <p>There are no code units of length 8, 9, 10, 11, or 12. Nor are there any of length 14 or beyond.</p>
           <table>
             <thead>
@@ -2993,17 +2993,17 @@
           <p>On the surface 13-byte, 72-bit code units have an information rate of <code>72 / (13*8) = 72 / 104 = 69%</code>, which is better than that of UTF-8000 (<code>62.5%</code>).</p>
           <p>However as only 64 of those 72 bits are used in encoding 64 bit numbers, with the whole of the first continuation byte never being used, the information rate is closer to <code>64 / (13*8) = 64 / 104 = 61.5%</code>, which is worse than UTF-8000.</p>
 
-          <h4>Self-synchronization</h4>
+          <h4>Self-Synchronization</h4>
           <p>
             This is effectively the same as UTF-8000. All continuation bytes have a <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span></code> self-synchronization prefix, and the 13-byte start byte <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> has a <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11</span></code> self-synchronization prefix.
           </p>
 
-          <h4>Self-punctuation</h4>
+          <h4>Self-Punctuation</h4>
           <p>
             The first byte of a 13-byte code unit being <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code> characterizes it as a special case, providing self-punctuation. This is similar to ASCII being a special case with its characterizing prefix of <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">0</span></code> in the highest bit.
           </p>
 
-          <h4>Not infinitely extensible</h4>
+          <h4>Not Infinitely Extensible</h4>
           <p>Because Perl only supports up to 64-bit numbers without a specialized <code>bigint</code> module, it was sensible of them to cap their extension of UTF-8 to a finite number of bytes. It's not the prettiest however, and I'm not sure why they chose 13 bytes when 12 would suffice. CPU alignment if they don't store the predictable start byte of all 1s?</p>
 
           <h3>Verdict</h3>
@@ -3101,7 +3101,7 @@
           </p>
 
           <h3>Properties</h3>
-          <h4>No self-synchronization</h4>
+          <h4>No Self-Synchronization</h4>
           <p>
             In the 8-byte code unit example, there is no way to distinguish the second byte <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code> from the first byte of a 2-byte code unit <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">x</span></code
             >. This generalizes beyond just 8-byte code units. This specific example could also encode <code class="utf-8000-byte"><span class="utf-8000-bits-start">110</span><span class="utf-8000-bits-content-mandatory">00001</span></code> (0xC1), which UTF-8 cannot, which may trip UTF-8 compatibility stress-tests.
@@ -3208,7 +3208,7 @@
           <li>The <q>V</q> in <q>VTF-8</q> looks very similar to the <q>U</q> in UTF-8. At a glance, and depending on font rendering, one may not notice the difference.</li>
         </ul>
 
-        <h3>STF-8 for the signed variant</h3>
+        <h3>STF-8 for the Signed Variant</h3>
         <p>The <q>U</q> in <q>UTF-8</q> could also be read as <q>Unsigned</q>, ie <q>Unsigned Transformation Format 8</q>. Thus we could take inspiration and write <q>STF-8</q> for <q>Signed Transformation Format 8</q>.</p>
       </details>
 
@@ -3300,13 +3300,13 @@
         </ul>
         <li><a href="#sec-properties">Properties</a></li>
         <ul>
-          <li><a href="#sec-properties-bit-counts">Bit counts</a></li>
+          <li><a href="#sec-properties-bit-counts">Bit Counts</a></li>
           <li><a href="#sec-properties-special-cases">Why the Special Cases?</a></li>
           <li><a href="#sec-properties-information-rate">Information Rate</a></li>
           <li><a href="#sec-properties-self-synchronization">Self-Synchronization</a></li>
           <li><a href="#sec-properties-self-punctuation">Self-Punctuation</a></li>
-          <li><a href="#sec-properties-byte-map">Byte map</a></li>
-          <li><a href="#sec-properties-strcmp">strcmp(3) ordering</a></li>
+          <li><a href="#sec-properties-byte-map">Byte Map</a></li>
+          <li><a href="#sec-properties-strcmp"><code>strcmp(3)</code> Ordering</a></li>
           <li><a href="#sec-properties-no-endianness">No Endianness</a></li>
           <li><a href="#sec-properties-bom-support">BOM Support</a></li>
           <li><a href="#sec-properties-arbitrary-lengths-sensible-limits">Arbitrary Lengths, Sensible Limits</a></li>
