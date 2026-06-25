@@ -3137,6 +3137,10 @@
         <details id="sec-rejected-do-nothing" no-open="true">
           <summary>Do Nothing</summary>
           <p>Why bother publishing this now and making so much noise? As of <a href="https://www.unicode.org/versions/stats/charcountv17_0.html">Unicode Version 17.0</a>, September 9th 2025, only 299,448 of 1,114,112 (27%) codepoints have been designated.</p>
+          <blockquote id="jfk-quote">
+            <p><q>We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard, because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone, and one we intend to win...</q></p>
+            <p>- <a href="https://en.wikipedia.org/wiki/John_F._Kennedy">JFK</a>, 35th President of the USA, <a href="https://en.wikipedia.org/wiki/We_choose_to_go_to_the_Moon">1962</a>.</p>
+          </blockquote>
           <ul>
             <li>It is a great exercise in coding theory.</li>
             <li>Nobody else seems to have figured it out, as only worse rejected alternatives have been previously proposed.</li>
@@ -3276,7 +3280,7 @@
         <ul>
           <li><a href="https://www.maths.cam.ac.uk/person/sm137">Professor Stuart Martin</a>, who lectured <i>Coding and Cryptography</i> 2019-2020.</li>
           <li>
-            <a href="https://www.maths.cam.ac.uk/person/ril10">Dr Ross Lawther</a>, director of studies for mathematics at <a href="https://www.girton.cam.ac.uk/subjects-courses/mathematics">Girton College</a> who supervised me for <i>Coding and Cryptography</i> (and other mathematics topics!) 2017-2020. <span id="codes-and-cryptography-example-sheet">It is question 2 of <a href="https://www.dpmms.cam.ac.uk/study/II/Coding/2019-2020/CC1-20.pdf">example sheet 1</a> that concerns the product of two prefix-free codes</span>, which I was reminded of by the product of the self-synchronization and self-punctuation mechanisms of UTF-8000.
+            <a href="https://www.maths.cam.ac.uk/person/ril10">Dr Ross Lawther</a>, director of studies for <a href="https://www.girton.cam.ac.uk/subjects-courses/mathematics">mathematics at Girton College</a> who supervised me for <i>Coding and Cryptography</i> (and other mathematics topics!) 2017-2020. <span id="codes-and-cryptography-example-sheet">It is question 2 of <a href="https://www.dpmms.cam.ac.uk/study/II/Coding/2019-2020/CC1-20.pdf">example sheet 1</a> that concerns the product of two prefix-free codes</span>, which I was reminded of by the product of the self-synchronization and self-punctuation mechanisms of UTF-8000.
           </li>
           <li><a href="https://www.maths.cam.ac.uk/person/tkc10">Dr Keith Carne</a>, whose timeless lecture notes for <i>Codes and Cryptography</i> I use often. They are mirrored on my website <a href="https://math.jb2170.com/videos/entropy/Codes-And-Cryptography-TKCarne.pdf">here</a>. Start at chapter 3 if you're interested!</li>
         </ul>
@@ -3284,12 +3288,22 @@
 
       <details id="sec-contact" no-open="true">
         <summary>Contact / Epilogue</summary>
+        <blockquote>
+          <p><q>To think of these stars that you see overhead at night, these vast worlds which we can never reach. I would annex the planets if I could.</q></p>
+          <p>- <a href="https://en.wikipedia.org/wiki/Cecil_Rhodes">Cecil John Rhodes</a>, founder of Rhodesia.</p>
+        </blockquote>
+        <p>And annex the entire integers we have done! I find it fitting that ASCII (🇺🇸) and UTF-8 (🇺🇸) are completed by UTF-8000 (🇬🇧), another Anglosphere classic.</p>
+
+        <blockquote>
+          <p><q>One man alone in a room with a computer, a typewriter as it was, can change the world.</q></p>
+          <p>- <a href="https://en.wikipedia.org/wiki/Jonathan_Bowden">Jonathan Bowden</a>, English cultural orator.</p>
+          <p>(As a proud alumnus of <a href="https://en.wikipedia.org/wiki/Girton_College,_Cambridge">Girton College</a> I do feel compelled to comment that <q>man</q> should be read in the Lockean sense of <q>mankind</q>!)</p>
+        </blockquote>
         <p>
-          <q>To think of these stars that you see overhead at night, these vast worlds which we can never reach. I would annex the planets if I could.</q>
-          - <a href="https://en.wikipedia.org/wiki/Cecil_Rhodes">Cecil John Rhodes</a>, founder of Rhodesia.
+          The world has been changed at least twice by Ken Thompson, with Unix and UTF-8. Unix was first written in solitude, in three weeks of the summer of 1969 (the same time as the <a href="#jfk-quote">Moon landing</a>), at Bell Labs on a teletypewriter attached to a spare PDP computer. UTF-8 was invented in one night of autumn 1992, at a New Jersey diner on a placemat, with <a href="https://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt#:~:text=111111xx">a slight tweak</a> a couple of days later changing the six-byte start-byte from <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">1111</span><span class="utf-8000-bits-content-mandatory">xx</span></code> to <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">11110</span><span class="utf-8000-bits-content-mandatory">x</span></code
+          >. (That way the number of content bits is not a special case, and the start bits don't saturate the unary code binary tree, leaving open the door for future expansion!).
         </p>
-        <p>It is fitting that ASCII (🇺🇸) and UTF-8 (🇺🇸) are completed by UTF-8000 (🇬🇧), the annexing of the entire integers, another Anglosphere classic.</p>
-        <p>Do say hi on <a href="https://github.com/UTF-8000">GitHub</a> if you have any questions or improvements.</p>
+        <p>I, <a href="https://www.jb2170.com/">Jay Berry</a>, have so far written this document alone in the summer of 2026, realizing that my reference implementation from autumn 2024 was a nontrivial discovery. Do say hi on <a href="https://github.com/UTF-8000">GitHub</a> if you have any questions or improvements.</p>
         <p>Last updated <time datetime="2026-06-07">2026-06-07</time>.</p>
       </details>
     </main>

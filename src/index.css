@@ -56,6 +56,13 @@ li {
   max-width: 80ch;
 }
 
+blockquote {
+  margin-inline: 0;
+  padding-inline: 3ch;
+  max-width: fit-content;
+  border: 1ch solid blanchedalmond;
+}
+
 img {
   max-width: 100%;
 }
