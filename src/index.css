@@ -43,8 +43,12 @@ h3 {
 }
 
 thead th {
-  padding-inline-end: 1em;
+  padding-inline-end: 2ch;
   text-align: start;
+}
+
+th {
+  white-space: nowrap;
 }
 
 td {
