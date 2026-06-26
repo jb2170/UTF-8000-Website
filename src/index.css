@@ -129,6 +129,19 @@ details summary {
   color: crimson;
 }
 
+.ucs-bits-self-sync {
+  color: darkturquoise;
+}
+
+.ucs-bits-self-punctuation-mandatory {
+  font-weight: bold;
+  color: salmon;
+}
+
+.ucs-bits-self-punctuation-optional {
+  color: salmon;
+}
+
 .byte-table {
   font-family: monospace;
   font-size: large;

@@ -2096,7 +2096,7 @@
         </details>
       </details>
 
-      <details id="sec-rejected-alternatives" open="true">
+      <details id="sec-rejected-alternatives" no-open="true">
         <summary>Rejected Alternatives</summary>
         <p>Although UTF-8000 extends <q>naturally</q> from UTF-8, is it still the best approach? Are there any better alternatives that <q>engineer</q> an extension from UTF-8, just as UTF-8 <a href="#sec-intuitive-derivation-engineer:~:text=the architecting of UTF-8 was not purely a mathematics problem, but was also an engineering problem">engineers</a> an extension from ASCII?</p>
 
@@ -3068,10 +3068,813 @@
           <p>Also, they refer to it as <q>utf8</q> instead of <q>UTF-8</q> (the correct way), though this is pedantry.</p>
         </details>
 
-        <details id="sec-rejected-ucs-x" open="true">
+        <details id="sec-rejected-ucs-x" no-open="true">
           <summary>UCS-X</summary>
+          <p>UCS-X proposes three extensions for each of UTF-8, UTF-16, UTF-32, for a total of nine specifications, twelve including the existing base specifications!</p>
+          <p>I have so far only investigated the UTF-8 extensions, as they are all dense reads, and that is what we summarize in this section, with our main contribution being bitwise color highlighting.</p>
+          <p>At a glance the UTF-16 extensions look like they break syntax with base UTF-16, whereas our <a href="#sec-utf-16k">UTF-16K</a> proposal does not. Ours only semantically reinterprets the high surrogates <code>U+DB00</code> to <code>U+DB3F</code>. I will have a look at UCS-X's UTF-16 and UTF-32 extensions when I get time, to see if they contain anything interesting, or if I'm wrong.</p>
+
+          <h3>Source</h3>
+          <p>
+            Tom Bishop and Richard Cook on ucsx.org: <i><a href="https://ucsx.org/">The UCS-X Family of UCS Extensions (Draft Proposal)</a></i>
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>UTF-8</th>
+                <th>UTF-16</th>
+                <th>UTF-32</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="https://ucsx.org/g8">UTF-G-8</a></td>
+                <td><a href="https://ucsx.org/g16">UTF-G-16</a></td>
+                <td><a href="https://ucsx.org/g32">UTF-G-32</a></td>
+              </tr>
+              <tr>
+                <td><a href="https://ucsx.org/e8">UTF-E-8</a></td>
+                <td><a href="https://ucsx.org/e16">UTF-E-16</a></td>
+                <td><a href="https://ucsx.org/e32">UTF-E-32</a></td>
+              </tr>
+              <tr>
+                <td><a href="https://ucsx.org/∞8">UTF-∞-8</a></td>
+                <td><a href="https://ucsx.org/∞16">UTF-∞-16</a></td>
+                <td><a href="https://ucsx.org/∞32">UTF-∞-32</a></td>
+              </tr>
+            </tbody>
+          </table>
 
           <h3>TLDR / Examples</h3>
+          <h4>UTF-G-8</h4>
+          <p>The same as original 6-byte UTF-8 (<a href="https://datatracker.ietf.org/doc/html/rfc2279">RFC 2279</a>) by Ken Thompson and Rob Pike, the same as <a href="#sec-tldr">UTF-8000</a>.</p>
+          <table>
+            <tbody>
+              <tr>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">111110</span><span class="utf-8000-bits-content-mandatory">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">1111110</span><span class="utf-8000-bits-content-mandatory">x</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>UTF-E-8</h4>
+          <p>The same as <a href="#sec-rejected-perl-utf8">Perl utf8</a>.</p>
+          <table>
+            <tbody>
+              <tr>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111110</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxx</span><span class="utf-8000-bits-content-optional">x</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-unknown">00</span><span class="utf-8000-bits-content-mandatory">0xxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>UTF-∞-8</h4>
+          <p>This extension's code units are best characterized by the number of hex digits that the <code>U+...XXXX</code> codepoint representation consists of. The idea is that by adding on two more continuation bytes, which contain 12 content bits, one can add three more hex digits to the <code>U+...XXXX</code> codepoint representation.</p>
+          <p>The 18 hex digit, 71 and 72 content bit cases are handled specially, in the transition region of extending from UTF-E-8.</p>
+          <p>
+            Otherwise, to encode an integer N: Subtract 18 from the number of hex digits in the integer's <code>U+...XXX</code> codepoint representation. Store this number in one or more low <q>length-storage bytes</q> of the form <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code
+            >. Precede these low <q>length-storage bytes</q> with the constant high <q>length-storage bytes</q> <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code> (0xB4), where the number of high length-storage bytes is one less than the number of low length-storage bytes. Now precede this with the constant full start byte <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code
+            >. Now succeed all of this with continuation bytes that store the content bits, of the form <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+            >. These content bytes come in pairs, and the number of pairs should be one third of the number of hex digits, rounded up to the next integer if necessary.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>hex digits</th>
+                <th>content bits</th>
+                <th>bytes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td>71</td>
+                <td>13</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">0</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxx</span><span class="utf-8000-bits-content-optional">xxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td>72</td>
+                <td>14</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">1</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>&emsp;</td>
+              </tr>
+              <tr>
+                <td>19</td>
+                <td>76</td>
+                <td>16</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0001</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">00xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>20</td>
+                <td>80</td>
+                <td>16</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0010</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0000xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>21</td>
+                <td>84</td>
+                <td>16</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0011</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>31</td>
+                <td>124</td>
+                <td>24</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1101</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">00xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>32</td>
+                <td>128</td>
+                <td>24</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1110</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0000xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>33</td>
+                <td>132</td>
+                <td>24</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>&emsp;</td>
+              </tr>
+              <tr>
+                <td>34</td>
+                <td>136</td>
+                <td>28</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">0001</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">00xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>35</td>
+                <td>140</td>
+                <td>28</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">0001</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0001</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0000xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>36</td>
+                <td>144</td>
+                <td>28</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">0001</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">0010</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>...</td>
+              </tr>
+              <tr>
+                <td>271</td>
+                <td>1084</td>
+                <td>186</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">1111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1101</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">00xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>272</td>
+                <td>1088</td>
+                <td>186</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">1111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1110</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0000xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>273</td>
+                <td>1092</td>
+                <td>186</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">1111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>&emsp;</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">000000</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">00xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0000xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xx</span><span class="utf-8000-bits-content-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">11111111</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+                <td>...</td>
+                <td>
+                  <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code>
+                </td>
+              </tr>
+              <tr>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            The maximum integer that <code>n</code> low length-storage bytes can store is <code>16^n - 1</code>, which is always congruent to <code>0 mod3</code>. Thus the number of code units in each family of <code>n</code> low length-storage bytes is <code>(16^n - 1) - (16^(n-1) - 1)</code> which is also always congruent to <code>0 mod3</code>. In the base case of <code>n = 1</code>, the maximum low length-storage byte <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1111</span></code> (33 hex digits) is succeeded by the bytes
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+            >, case 3/3 of the repeating pattern of mandatory content bits placement in the highest two content bytes. Thus we conclude inductively that each family of code units with <code>n</code> low length-storage bytes ends the same way, with
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-mandatory">1111</span></code>
+            <span
+              >[ <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">1111</span></code> ... ]</span
+            >
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span><span class="utf-8000-bits-content-optional">xx</span></code>
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
+            >. This ensures clean transitions from <code>n</code> to <code>n+1</code> low length-storage byte families.
+          </p>
+
+          <h3>Properties</h3>
+          <h4>Bit Counts</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>variant</th>
+                <th>code unit length</th>
+                <th>number of content bits</th>
+                <th>same as</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ASCII</td>
+                <td><code>n = 1</code></td>
+                <td><code>7</code></td>
+                <td><a href="#sec-tldr">UTF-8000</a></td>
+              </tr>
+              <tr>
+                <td>UTF-8</td>
+                <td><code>2 &le; n &le; 4</code></td>
+                <td><code>5n+1</code></td>
+                <td><a href="#sec-tldr">UTF-8000</a></td>
+              </tr>
+              <tr>
+                <td>UTF-G-8</td>
+                <td><code>5 &le; n &le; 6</code></td>
+                <td><code>5n+1</code></td>
+                <td><a href="#sec-tldr">UTF-8000</a></td>
+              </tr>
+              <tr>
+                <td>UTF-E-8</td>
+                <td><code>n = 7</code></td>
+                <td><code>5n+1 ( = 36)</code></td>
+                <td><a href="#sec-tldr">UTF-8000</a></td>
+              </tr>
+              <tr>
+                <td>UTF-E-8</td>
+                <td><code>n = 13</code></td>
+                <td><code>63</code></td>
+                <td><a href="#sec-rejected-perl-utf8">Perl utf8</a></td>
+              </tr>
+              <tr>
+                <td>UTF-∞-8</td>
+                <td><code>n = 13</code></td>
+                <td><code>71</code></td>
+              </tr>
+              <tr>
+                <td>UTF-∞-8</td>
+                <td><code>n = 14</code></td>
+                <td><code>72</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>and then further for UTF-∞-8:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>number of hex digits</th>
+                <th>number of content bits</th>
+                <th>code unit length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>n &ge; 19</code></td>
+                <td><code>4n</code></td>
+                <td><code>2(⌊log<sub>16</sub>(n-18)⌋ + 1) + 2⌈n/3⌉</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>UTF-G-8 stores 31 bits, enough to encode positive signed 32-bit integers.</p>
+          <p>UTF-E-8 stores 63 bits, enough to encode positive signed 64-bit integers.</p>
+          <p>For UTF-∞-8 this is unlimited.</p>
+
+          <h4>Information Rate</h4>
+          <p>
+            Asymptotically <code>4n / (8 * 2(⌊log<sub>16</sub>(n-18)⌋ + 1) + 2⌈n/3⌉)</code> tends towards <code>3/4 = 75%</code>, which is better than that of UTF-8000 (<code>62.5%</code>). That's the power of the low length-storage bytes <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code> using all possible combinations of bits, whereas UTF-8000's start bits use only unary codewords. The <code>3/4 = 6/8</code> is representative of the content bytes.
+          </p>
+
+          <h4>Self-Synchronization</h4>
+          <p>
+            Every byte beyond the first begins with the continuation prefix <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span></code
+            >, ensuring self-synchronization.
+          </p>
+
+          <h4>Self-Punctuation</h4>
+          <p>
+            The high length-storage bytes <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code> provide self punctuation. They tell us to keep reading a stream for them until we reach a low length-storage byte.
+          </p>
+
+          <h4>Byte Map</h4>
+          <p>
+            I was going to create one of these, but then I realized that unlike UTF-8000, UTF-∞-8 reuses bytes depending on context. For example 0xB4 can be
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">110100</span></code>
+            or
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code
+            >, and 0xAX can be
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">10xxxx</span></code>
+            or
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code
+            >.
+          </p>
+
+          <h4><code>strcmp(3)</code> Ordering</h4>
+          <p>
+            The choice of 13 byte code units being limited to 71 bits leads to a second byte of the form
+            <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">0</span><span class="utf-8000-bits-content-mandatory">xxxxx</span></code
+            >. This, and the choice of low length-storage bytes being of the form <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">10</span><span class="ucs-bits-self-punctuation-optional">xxxx</span></code
+            >, high length-storage bytes being <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code
+            >, and the use of a unary-code-like sequence of high length-storage bytes for self punctuation, means that UTF-∞-8 preserves <code>strcmp</code> ordering.
+          </p>
+          <p>
+            It seems that any <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">11xxxx</span></code> 0xBX byte could have been used for the high length-storage bytes, and 0xB4 <q>before</q> is just a <a href="https://ucsx.org/∞8#:~:text=zero or more bytes whose value is B4 (%22before%22)">fun choice</a>.
+          </p>
+
+          <h4>BOM Support</h4>
+          <p>For the same reasons as <a href="#sec-properties-bom-support">UTF-8000</a>, BOM support is maintained.</p>
+
+          <h3>Verdict</h3>
+          <p>It works, but it's quite complicated. It took me an entire day to figure out how it works, and to calculate its stats. I much prefer the simplicity of UTF-8000.</p>
+          <p>
+            The high length-storage bytes <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="ucs-bits-self-sync">110100</span></code> provide self-punctuation and <code>strcmp</code> support, but somehow feel wasteful, taking up eight bits each, and are exceptional, with none of the other 0xBX bytes being used in a similar way. That being said, asymptotically UTF-∞-8 has a better information rate than UTF-8000.
+          </p>
+          <p>The mechanism of subtracting 18 from the number of hex digits and stuffing them into the low length-storage bytes reminds me a little of UTF-16, subtracting 0x10000 from the codepoint value and stuffing that into the surrogate bytes.</p>
         </details>
 
         <details id="sec-rejected-owl" no-open="true">
