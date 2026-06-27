@@ -81,6 +81,10 @@ details summary {
   text-decoration: underline double;
 }
 
+.a-dfn {
+  color: black;
+}
+
 .utf-8000-bits,
 .utf-8000-byte {
   /* font-family: monospace; */

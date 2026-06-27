@@ -294,7 +294,7 @@
       <details id="sec-glossary" no-open="true">
         <summary>Glossary</summary>
         <p>These terms are ordered somewhat by chronology of first requirement, rather than alphabetically, for convenience.</p>
-        <p>Terms used within definitions are <u>underlined</u>.</p>
+        <p>Terms used within definitions are <a class="a-dfn" href="#sec-glossary">underlined</a> clickable hyperlinks.</p>
         <table>
           <thead>
             <tr>
@@ -310,44 +310,44 @@
             <tr id="def-code-unit">
               <td><p>Code Unit</p></td>
               <td>
-                <p>A sequence of UTF-8000 bytes that encode a single <u>codepoint</u>.</p>
+                <p>A sequence of UTF-8000 bytes that encode a single <a class="a-dfn" href="#def-codepoint">codepoint</a>.</p>
               </td>
             </tr>
             <tr id="def-first-byte">
               <td><p>First Byte</p></td>
               <td>
-                <p>The first, one and only, byte that begins a UTF-8000 <u>code unit</u>.</p>
+                <p>The first, one and only, byte that begins a UTF-8000 <a class="a-dfn" href="#def-code-unit">code unit</a>.</p>
                 <p>
-                  The <u>self-synchronization prefix</u> of a <u>first byte</u> is either
+                  The <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization prefix</a> of a <a class="a-dfn" href="#def-first-byte">first byte</a> is either
                   <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>
                   for ASCII or
                   <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code>
-                  for multi-byte <u>code units</u>.
+                  for multi-byte <a class="a-dfn" href="#def-code-unit">code units</a>.
                 </p>
-                <!-- <p>This term is also known as <u>first start byte</u> or <u>non-continuation byte</u>.</p> -->
-                <p>This term is <b>not</b> synonymous with <u>start byte</u>. A <u>first byte</u> is necessarily a <u>start byte</u>, but not the other way around. It is for this reason that <u>first byte</u> is sometimes also known as <u>first start byte</u>.</p>
+                <!-- <p>This term is also known as <a class="a-dfn" href="#def-first-byte">first start byte</a> or <a class="a-dfn" href="#def-first-byte">non-continuation byte</a>.</p> -->
+                <p>This term is <b>not</b> synonymous with <a class="a-dfn" href="#def-start-byte">start byte</a>. A <a class="a-dfn" href="#def-first-byte">first byte</a> is necessarily a <a class="a-dfn" href="#def-start-byte">start byte</a>, but not the other way around. It is for this reason that <a class="a-dfn" href="#def-first-byte">first byte</a> is sometimes also known as <a class="a-dfn" href="#def-first-byte">first start byte</a>.</p>
                 <p>
-                  Fun observation: because of the <u>self-synchronization prefix</u>
+                  Fun observation: because of the <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization prefix</a>
                   <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>
                   the upper hex nibble of ASCII bytes can only be one of <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>.
                 </p>
-                <p>This term is mutually exclusive with <u>continuation byte</u> due to <u>self-synchronization</u>.</p>
+                <p>This term is mutually exclusive with <a class="a-dfn" href="#def-continuation-byte">continuation byte</a> due to <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization</a>.</p>
               </td>
             </tr>
             <tr id="def-continuation-byte">
               <td><p>Continuation Byte</p></td>
               <td>
-                <p>A byte beyond the <u>first byte</u> of a multi-byte UTF-8000 <u>code unit</u>.</p>
+                <p>A byte beyond the <a class="a-dfn" href="#def-first-byte">first byte</a> of a multi-byte UTF-8000 <a class="a-dfn" href="#def-code-unit">code unit</a>.</p>
                 <p>
-                  The <u>self-synchronization prefix</u> of a <u>continuation byte</u> is <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code
-                  >, which is also known as the <u>continuation prefix bits</u>.
+                  The <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization prefix</a> of a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a> is <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code
+                  >, which is also known as the <a class="a-dfn" href="#def-continuation-byte">continuation prefix bits</a>.
                 </p>
                 <p>
-                  Fun observation: because of the <u>self-synchronization prefix</u>
+                  Fun observation: because of the <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization prefix</a>
                   <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-continuation">10</span></code>
-                  the upper hex nibble of <u>continuation bytes</u> can only be one of <code>8</code>, <code>9</code>, <code>A</code>, <code>B</code>.
+                  the upper hex nibble of <a class="a-dfn" href="#def-continuation-byte">continuation bytes</a> can only be one of <code>8</code>, <code>9</code>, <code>A</code>, <code>B</code>.
                 </p>
-                <p>This term is mutually exclusive with <u>first byte</u> due to <u>self-synchronization</u>.</p>
+                <p>This term is mutually exclusive with <a class="a-dfn" href="#def-first-byte">first byte</a> due to <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization</a>.</p>
               </td>
             </tr>
             <tr id="def-self-synchronization-prefix">
@@ -355,8 +355,8 @@
                 <p>Self-Synchronization Prefix</p>
               </td>
               <td>
-                <p>The highest bits of every UTF-8000 byte that indicate whether it is a <u>first byte</u> or a <u>continuation byte</u>.</p>
-                <p>The possible <u>self-synchronization prefixes</u> form a prefix-free tree:</p>
+                <p>The highest bits of every UTF-8000 byte that indicate whether it is a <a class="a-dfn" href="#def-first-byte">first byte</a> or a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a>.</p>
+                <p>The possible <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization prefixes</a> form a prefix-free tree:</p>
                 <pre><code>
   .----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code>              First byte for ASCII
   `----<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> Continuation byte for multi-byte UTF-8000
@@ -364,13 +364,13 @@
                 </code></pre>
                 <p>
                   This piece of the clever architecture of UTF-8, which UTF-8000 inherits, provides the property of
-                  <u>self-synchronization</u> at a byte level: we can instantaneously tell what kind of byte we are looking at, and where it should belong in a code unit, just by looking at these highest bits.
+                  <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization</a> at a byte level: we can instantaneously tell what kind of byte we are looking at, and where it should belong in a code unit, just by looking at these highest bits.
                 </p>
                 <p>
-                  This is most useful when decoding part of a file encoded in UTF-8000. If we randomly seek through the file to an arbitrary byte, we can unambiguously tell whether we are at a <u>first byte</u> whence we can begin decoding a new <u>code unit</u> immediately, or that we are at a <u>continuation byte</u> whence we need to seek a little further on in order to find the next <u>first byte</u> in order to begin decoding. Nor do we have to process any bytes prior to our seek position in order to discover some global state or the context of the byte we have seek-ed to; a <u>first byte</u> is always unambiguously a <u>first byte</u> wherever it appears, which we can deduce by its <u>self synchronization prefix</u> being either <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> or <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code
+                  This is most useful when decoding part of a file encoded in UTF-8000. If we randomly seek through the file to an arbitrary byte, we can unambiguously tell whether we are at a <a class="a-dfn" href="#def-first-byte">first byte</a> whence we can begin decoding a new <a class="a-dfn" href="#def-code-unit">code unit</a> immediately, or that we are at a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a> whence we need to seek a little further on in order to find the next <a class="a-dfn" href="#def-first-byte">first byte</a> in order to begin decoding. Nor do we have to process any bytes prior to our seek position in order to discover some global state or the context of the byte we have seek-ed to; a <a class="a-dfn" href="#def-first-byte">first byte</a> is always unambiguously a <a class="a-dfn" href="#def-first-byte">first byte</a> wherever it appears, which we can deduce by its <a class="a-dfn" href="#def-self-synchronization-prefix">self synchronization prefix</a> being either <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> or <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">11</span></code
                   >.
                 </p>
-                <p>This is useful not only for random access, but also for error recovery. Suppose that we are decoding an error-prone stream of UTF-8000 bytes and that whenever when we encounter an error (e.g. a rogue 0xC0 byte) we wish to <q>keep calm and carry on</q> instead of immediately exiting. We can yield Unicode replacement characters <code>U+FFFD</code> <q>&#xFFFD;</q> and then await the next <u>first byte</u>, discarding anything in the interim.</p>
+                <p>This is useful not only for random access, but also for error recovery. Suppose that we are decoding an error-prone stream of UTF-8000 bytes and that whenever when we encounter an error (e.g. a rogue 0xC0 byte) we wish to <q>keep calm and carry on</q> instead of immediately exiting. We can yield Unicode replacement characters <code>U+FFFD</code> <q>&#xFFFD;</q> and then await the next <a class="a-dfn" href="#def-first-byte">first byte</a>, discarding anything in the interim.</p>
                 <p>
                   See the Wikipedia article for
                   <a href="https://en.wikipedia.org/wiki/Self-synchronizing_code">self-synchronizing code</a> for more general info.
@@ -381,12 +381,12 @@
             <tr id="def-start-byte">
               <td><p>Start Byte</p></td>
               <td>
-                <p>A byte containing one or more <u>start bits</u>. The <u>start bytes</u> exist contiguously at the beginning of a UTF-8000 <u>code unit</u>. The power of UTF-8000 is that we can have multiple <u>start bytes</u>, to achieve arbitrary <u>code unit</u> lengths, to encode arbitrarily large <u>codepoints</u>.</p>
-                <p>Sometimes it is sensible to colloquially also include ASCII as a <u>start byte</u> when we are talking about the bytes towards the start of a code unit, even though ASCII bytes have no <u>start bits</u>.</p>
-                <p>Every non-ASCII <u>code unit</u> has at least one <u>start byte</u>. The first <u>start byte</u> is the <u>first byte</u>, and it is followed by zero or more <u>continuation bytes</u> that are also <u>start bytes</u>. Therefore because a UTF-8000 <u>code unit</u> can have multiple <u>start bytes</u>, this term is <b>not</b> synonymous with <u>first byte</u>.</p>
+                <p>A byte containing one or more <a class="a-dfn" href="#def-start-bits">start bits</a>. The <a class="a-dfn" href="#def-start-byte">start bytes</a> exist contiguously at the beginning of a UTF-8000 <a class="a-dfn" href="#def-code-unit">code unit</a>. The power of UTF-8000 is that we can have multiple <a class="a-dfn" href="#def-start-byte">start bytes</a>, to achieve arbitrary <a class="a-dfn" href="#def-code-unit">code unit</a> lengths, to encode arbitrarily large <a class="a-dfn" href="#def-codepoint">codepoints</a>.</p>
+                <p>Sometimes it is sensible to colloquially also include ASCII as a <a class="a-dfn" href="#def-start-byte">start byte</a> when we are talking about the bytes towards the start of a code unit, even though ASCII bytes have no <a class="a-dfn" href="#def-start-bits">start bits</a>.</p>
+                <p>Every non-ASCII <a class="a-dfn" href="#def-code-unit">code unit</a> has at least one <a class="a-dfn" href="#def-start-byte">start byte</a>. The first <a class="a-dfn" href="#def-start-byte">start byte</a> is the <a class="a-dfn" href="#def-first-byte">first byte</a>, and it is followed by zero or more <a class="a-dfn" href="#def-continuation-byte">continuation bytes</a> that are also <a class="a-dfn" href="#def-start-byte">start bytes</a>. Therefore because a UTF-8000 <a class="a-dfn" href="#def-code-unit">code unit</a> can have multiple <a class="a-dfn" href="#def-start-byte">start bytes</a>, this term is <b>not</b> synonymous with <a class="a-dfn" href="#def-first-byte">first byte</a>.</p>
                 <p>
                   In restricting to only UTF-8 without UTF-8000, this term
-                  <em>is</em> synonymous with <u>first byte</u>. This is because UTF-8-length <u>code units</u> only require one <u>start byte</u>, whether using up to 4 bytes in the current UTF-8 standard (<a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a> (2003)), or using up to 6 bytes in former standards (<a href="https://datatracker.ietf.org/doc/html/rfc2044">RFC 2044</a>
+                  <em>is</em> synonymous with <a class="a-dfn" href="#def-first-byte">first byte</a>. This is because UTF-8-length <a class="a-dfn" href="#def-code-unit">code units</a> only require one <a class="a-dfn" href="#def-start-byte">start byte</a>, whether using up to 4 bytes in the current UTF-8 standard (<a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a> (2003)), or using up to 6 bytes in former standards (<a href="https://datatracker.ietf.org/doc/html/rfc2044">RFC 2044</a>
                   (1996) and
                   <a href="https://datatracker.ietf.org/doc/html/rfc2279">RFC 2279</a>
                   (1998)).
@@ -396,12 +396,12 @@
             <tr id="def-start-bits">
               <td><p>Start Bits</p></td>
               <td>
-                <p>The unary-code sequence of bits contained in the <u>start bytes</u> of a multi-byte UTF-8000 <u>code unit</u> that tells us the length of the <u>code unit</u> in bytes.</p>
+                <p>The unary-code sequence of bits contained in the <a class="a-dfn" href="#def-start-byte">start bytes</a> of a multi-byte UTF-8000 <a class="a-dfn" href="#def-code-unit">code unit</a> that tells us the length of the <a class="a-dfn" href="#def-code-unit">code unit</a> in bytes.</p>
                 <p>
-                  For a <u>code unit</u> made of <code>n</code> bytes the <u>start bits</u> are <code>n-2</code> <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> bits followed by a terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit. To be clear, the <u>start bits</u> include this terminating zero bit. Thus the <u>start bits</u> sequence is of length <code>n-1</code> and looks like <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...10</span></code
+                  For a <a class="a-dfn" href="#def-code-unit">code unit</a> made of <code>n</code> bytes the <a class="a-dfn" href="#def-start-bits">start bits</a> are <code>n-2</code> <code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code> bits followed by a terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit. To be clear, the <a class="a-dfn" href="#def-start-bits">start bits</a> include this terminating zero bit. Thus the <a class="a-dfn" href="#def-start-bits">start bits</a> sequence is of length <code>n-1</code> and looks like <code class="utf-8000-bits"><span class="utf-8000-bits-start">111...10</span></code
                   >.
                 </p>
-                <p>The possible <u>start bits</u> sequences form a prefix-free tree:</p>
+                <p>The possible <a class="a-dfn" href="#def-start-bits">start bits</a> sequences form a prefix-free tree:</p>
                 <pre><code>
   .----<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>                    Two byte UTF-8
   `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code>            Three byte UTF-8
@@ -409,31 +409,31 @@
               `----<code class="utf-8000-bits"><span class="utf-8000-bits-start">1</span></code>---<code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> Five byte UTF-8000
                     `----...    n byte UTF-8000
                 </code></pre>
-                <p>For an <code>n</code> byte <u>code unit</u> where <code>n < 8</code> the <u>start bits</u> all fit together snugly in the <u>first byte</u>. Otherwise they are striped across as many of the first few bytes as they need, filling the free bits that are not occupied by <u>continuation prefix bits</u>.</p>
+                <p>For an <code>n</code> byte <a class="a-dfn" href="#def-code-unit">code unit</a> where <code>n < 8</code> the <a class="a-dfn" href="#def-start-bits">start bits</a> all fit together snugly in the <a class="a-dfn" href="#def-first-byte">first byte</a>. Otherwise they are striped across as many of the first few bytes as they need, filling the free bits that are not occupied by <a class="a-dfn" href="#def-continuation-byte">continuation prefix bits</a>.</p>
                 <p>
-                  This is another piece of the clever architecture of UTF-8, which UTF-8000 inherits, that provides the property of <u>self-punctuation</u> also known as a <q>prefix code</q> or a <q>prefix-free code</q>: when decoding a multi-byte <u>code unit</u>, once we have read to the end of the <u>start bytes</u>, that is we have encountered the terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit, we know exactly how many bytes we expect in that <u>code unit</u>. Notwithstanding errors we can therefore succeed in decoding the <u>code unit</u> by reading exactly that many bytes, and no more.
+                  This is another piece of the clever architecture of UTF-8, which UTF-8000 inherits, that provides the property of <a class="a-dfn" href="#def-start-bits">self-punctuation</a> also known as a <q>prefix code</q> or a <q>prefix-free code</q>: when decoding a multi-byte <a class="a-dfn" href="#def-code-unit">code unit</a>, once we have read to the end of the <a class="a-dfn" href="#def-start-byte">start bytes</a>, that is we have encountered the terminating <code class="utf-8000-bits"><span class="utf-8000-bits-start">0</span></code> bit, we know exactly how many bytes we expect in that <a class="a-dfn" href="#def-code-unit">code unit</a>. Notwithstanding errors we can therefore succeed in decoding the <a class="a-dfn" href="#def-code-unit">code unit</a> by reading exactly that many bytes, and no more.
                 </p>
-                <p>This avoids a problem of dumber variable-length encodings whose <u>code units</u> do not intrinsically indicate their length: one has to read beyond the last byte of a <u>code unit</u>, that is one reads the <u>first byte</u> of the next <u>code unit</u>, in order to know that the current <u>code unit</u> has finished. For very dumb encodings which have neither <u>self-synchronization</u> nor <u>self-punctuation</u>, to make random access possible one would have to put dedicated auxiliary bytes, <q>punctuation</q> like a comma byte, between <u>code units</u> to be able to tell where one ends and another begins.</p>
+                <p>This avoids a problem of dumber variable-length encodings whose <a class="a-dfn" href="#def-code-unit">code units</a> do not intrinsically indicate their length: one has to read beyond the last byte of a <a class="a-dfn" href="#def-code-unit">code unit</a>, that is one reads the <a class="a-dfn" href="#def-first-byte">first byte</a> of the next <a class="a-dfn" href="#def-code-unit">code unit</a>, in order to know that the current <a class="a-dfn" href="#def-code-unit">code unit</a> has finished. For very dumb encodings which have neither <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization</a> nor <a class="a-dfn" href="#def-start-bits">self-punctuation</a>, to make random access possible one would have to put dedicated auxiliary bytes, <q>punctuation</q> like a comma byte, between <a class="a-dfn" href="#def-code-unit">code units</a> to be able to tell where one ends and another begins.</p>
                 <p>
                   See the Wikipedia articles for
                   <a href="https://en.wikipedia.org/wiki/Prefix_code">prefix code</a> and <a href="https://en.wikipedia.org/wiki/Unary_coding">unary coding</a> for more general info.
                 </p>
-                <p>This term is mutually exclusive with <u>content bits</u>.</p>
+                <p>This term is mutually exclusive with <a class="a-dfn" href="#def-content-bits">content bits</a>.</p>
                 <p>These bits are highlighted in <span class="utf-8000-bits-start">bright magenta</span>.</p>
               </td>
             </tr>
             <tr id="def-content-byte">
               <td><p>Content Byte</p></td>
               <td>
-                <p>A byte containing one or more <u>content bits</u>.</p>
+                <p>A byte containing one or more <a class="a-dfn" href="#def-content-bits">content bits</a>.</p>
                 <p>
-                  A byte being a <u>content byte</u> does not imply that it is a <u>continuation byte</u>. For example a 3-byte <u>code unit</u> begins with <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code
-                  >, which contains 4 <u>content bits</u> and is not a <u>continuation byte</u>.
+                  A byte being a <a class="a-dfn" href="#def-content-byte">content byte</a> does not imply that it is a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a>. For example a 3-byte <a class="a-dfn" href="#def-code-unit">code unit</a> begins with <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code
+                  >, which contains 4 <a class="a-dfn" href="#def-content-bits">content bits</a> and is not a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a>.
                 </p>
                 <p>
-                  A byte being a <u>continuation byte</u> does not imply that it is a <u>content byte</u>. For example a 22-byte <u>code unit</u> contains
+                  A byte being a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a> does not imply that it is a <a class="a-dfn" href="#def-content-byte">content byte</a>. For example a 22-byte <a class="a-dfn" href="#def-code-unit">code unit</a> contains
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-start">111111</span></code>
-                  as its second byte, which is a <u>continuation byte</u> and has no <u>content bits</u>.
+                  as its second byte, which is a <a class="a-dfn" href="#def-continuation-byte">continuation byte</a> and has no <a class="a-dfn" href="#def-content-bits">content bits</a>.
                 </p>
               </td>
             </tr>
@@ -441,68 +441,68 @@
               <td><p>Content Bits</p></td>
               <td>
                 <p>
-                  The sequence of bits in a <u>code unit</u> beyond the <u>start bits</u> and to the end of the <u>code unit</u>, in which the <u>codepoint</u>'s binary bits are stored. For example a 3-byte <u>code unit</u>, which has the form
+                  The sequence of bits in a <a class="a-dfn" href="#def-code-unit">code unit</a> beyond the <a class="a-dfn" href="#def-start-bits">start bits</a> and to the end of the <a class="a-dfn" href="#def-code-unit">code unit</a>, in which the <a class="a-dfn" href="#def-codepoint">codepoint</a>'s binary bits are stored. For example a 3-byte <a class="a-dfn" href="#def-code-unit">code unit</a>, which has the form
                   <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">xxxx</span></code>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">x</span><span class="utf-8000-bits-content-optional">xxxxx</span></code>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">xxxxxx</span></code
-                  >, has 16 <u>content bits</u>.
+                  >, has 16 <a class="a-dfn" href="#def-content-bits">content bits</a>.
                 </p>
                 <p>
-                  For ASCII there are 7 <u>content bits</u>. These seven bits <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">xxxxxxx</span></code> combined with a byte's highest bit being set to the <u>self-synchronization prefix</u> <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> means that ASCII is perfectly included into UTF-8 without being altered. Thus ASCII <u>code units</u> take the form <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code
+                  For ASCII there are 7 <a class="a-dfn" href="#def-content-bits">content bits</a>. These seven bits <code class="utf-8000-bits"><span class="utf-8000-bits-content-optional">xxxxxxx</span></code> combined with a byte's highest bit being set to the <a class="a-dfn" href="#def-self-synchronization-prefix">self-synchronization prefix</a> <code class="utf-8000-bits"><span class="utf-8000-bits-self-sync-first">0</span></code> means that ASCII is perfectly included into UTF-8 without being altered. Thus ASCII <a class="a-dfn" href="#def-code-unit">code units</a> take the form <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">0</span><span class="utf-8000-bits-content-optional">xxxxxxx</span></code
                   >.
                 </p>
-                <p>Otherwise for an <code>n</code> byte <u>code unit</u>, where <code>n &gt; 1</code>, there are <code>5n+1</code> <u>content bits</u>. This is how we arrive at that formula: We start with <code>n</code> blank bytes, each of which has <code>8</code> bits. For each byte <code>2</code> bits are taken by the <u>self synchronization prefix</u>. Then an additional <code>n-1</code> bits are taken by the <u>start bits</u>. Thus there are <code>8n - 2n - (n-1) = 5n+1</code> bits left for <u>content bits</u>. Another way to think about the <code>5</code> in this formula is by extending from <code>n-1</code> bytes to <code>n</code> bytes by appending another <u>continuation byte</u>. By doing this we gain <code>6</code> free bits in the <u>continuation byte</u>, but we lose <code>1</code> bit to the longer <u>start bits</u> sequence, thus overall we gain <code>6-1 = 5</code> bits for <u>content bits</u>.</p>
-                <p>This term is mutually exclusive with <u>start bits</u>.</p>
+                <p>Otherwise for an <code>n</code> byte <a class="a-dfn" href="#def-code-unit">code unit</a>, where <code>n &gt; 1</code>, there are <code>5n+1</code> <a class="a-dfn" href="#def-content-bits">content bits</a>. This is how we arrive at that formula: We start with <code>n</code> blank bytes, each of which has <code>8</code> bits. For each byte <code>2</code> bits are taken by the <a class="a-dfn" href="#def-self-synchronization-prefix">self synchronization prefix</a>. Then an additional <code>n-1</code> bits are taken by the <a class="a-dfn" href="#def-start-bits">start bits</a>. Thus there are <code>8n - 2n - (n-1) = 5n+1</code> bits left for <a class="a-dfn" href="#def-content-bits">content bits</a>. Another way to think about the <code>5</code> in this formula is by extending from <code>n-1</code> bytes to <code>n</code> bytes by appending another <a class="a-dfn" href="#def-continuation-byte">continuation byte</a>. By doing this we gain <code>6</code> free bits in the <a class="a-dfn" href="#def-continuation-byte">continuation byte</a>, but we lose <code>1</code> bit to the longer <a class="a-dfn" href="#def-start-bits">start bits</a> sequence, thus overall we gain <code>6-1 = 5</code> bits for <a class="a-dfn" href="#def-content-bits">content bits</a>.</p>
+                <p>This term is mutually exclusive with <a class="a-dfn" href="#def-start-bits">start bits</a>.</p>
                 <p>These bits are highlighted in <span class="utf-8000-bits-content-optional">lime</span>.</p>
               </td>
             </tr>
             <tr id="def-mandatory-content-byte">
               <td><p>Mandatory Content Byte</p></td>
               <td>
-                <p>A byte containing one or more <u>mandatory content bits</u>.</p>
-                <p>These are the bytes we check for <u>overlong encoding</u> when decoding a <u>code unit</u>.</p>
+                <p>A byte containing one or more <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a>.</p>
+                <p>These are the bytes we check for <a class="a-dfn" href="#def-overlong-encoding">overlong encoding</a> when decoding a <a class="a-dfn" href="#def-code-unit">code unit</a>.</p>
               </td>
             </tr>
             <tr id="def-mandatory-content-bits">
               <td><p>Mandatory Content Bits</p></td>
               <td>
                 <p>
-                  The first 0, 4, or 5 <u>content bits</u> of a <u>code unit</u> in which there must be at least one <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">1</span></code> bit, lest the bytes form an <u>overlong encoding</u>, which is forbidden.
+                  The first 0, 4, or 5 <a class="a-dfn" href="#def-content-bits">content bits</a> of a <a class="a-dfn" href="#def-code-unit">code unit</a> in which there must be at least one <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">1</span></code> bit, lest the bytes form an <a class="a-dfn" href="#def-overlong-encoding">overlong encoding</a>, which is forbidden.
                 </p>
-                <p>For ASCII there are 0 <u>mandatory content bits</u>, and thus no anti-<u>overlong</u> checking is required. This is because ASCII is the smallest possible code unit.</p>
-                <p>For 2-byte UTF-8000 there are 4 <u>mandatory content bits</u>. This is because in the jump from 1-byte ASCII to 2-byte UTF-8 we jump from 7 <u>content bits</u> to 11 <u>content bits</u>. Thus the number of <u>content bits</u> we gain is 11 minus 7 which is 4.</p>
-                <p>Otherwise for <code>n</code> byte UTF-8000, where <code>n &gt; 2</code>, there are 5 <u>mandatory content bits</u>. This is because in the jump from <code>n-1</code> byte UTF-8000 to <code>n</code> byte UTF-8000 we add on an extra continuation byte, which has 6 free bits, but we lose 1 bit to the longer <u>start bits</u> sequence. Thus overall the number of <u>content bits</u> we gain is 6 minus 1 which is 5.</p>
-                <p>Read about <u>overlong encoding</u> for why <u>mandatory content bits</u> are of interest.</p>
+                <p>For ASCII there are 0 <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a>, and thus no anti-<a class="a-dfn" href="#def-overlong-encoding">overlong</a> checking is required. This is because ASCII is the smallest possible code unit.</p>
+                <p>For 2-byte UTF-8000 there are 4 <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a>. This is because in the jump from 1-byte ASCII to 2-byte UTF-8 we jump from 7 <a class="a-dfn" href="#def-content-bits">content bits</a> to 11 <a class="a-dfn" href="#def-content-bits">content bits</a>. Thus the number of <a class="a-dfn" href="#def-content-bits">content bits</a> we gain is 11 minus 7 which is 4.</p>
+                <p>Otherwise for <code>n</code> byte UTF-8000, where <code>n &gt; 2</code>, there are 5 <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a>. This is because in the jump from <code>n-1</code> byte UTF-8000 to <code>n</code> byte UTF-8000 we add on an extra continuation byte, which has 6 free bits, but we lose 1 bit to the longer <a class="a-dfn" href="#def-start-bits">start bits</a> sequence. Thus overall the number of <a class="a-dfn" href="#def-content-bits">content bits</a> we gain is 6 minus 1 which is 5.</p>
+                <p>Read about <a class="a-dfn" href="#def-overlong-encoding">overlong encoding</a> for why <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a> are of interest.</p>
                 <p>These bits are highlighted in <span class="utf-8000-bits-content-mandatory">bright lime</span>.</p>
               </td>
             </tr>
             <tr id="def-overlong-encoding">
               <td><p>Overlong Encoding</p></td>
               <td>
-                <p>Forbidden <q>encodings</q> of <u>codepoints</u> that could be encoded correctly in UTF-8000 using a shorter <u>code unit</u>.</p>
+                <p>Forbidden <q>encodings</q> of <a class="a-dfn" href="#def-codepoint">codepoints</a> that could be encoded correctly in UTF-8000 using a shorter <a class="a-dfn" href="#def-code-unit">code unit</a>.</p>
                 <p>
-                  For example one could incorrectly try to encode the <u>codepoint</u> 0x41, 65, ASCII capital A, using 2-byte UTF-8 as
+                  For example one could incorrectly try to encode the <a class="a-dfn" href="#def-codepoint">codepoint</a> 0x41, 65, ASCII capital A, using 2-byte UTF-8 as
                   <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">1</span></code>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000001</span></code
-                  >. Observe that all the <u>mandatory content bits</u> are <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">0</span></code> which is the definition an <u>overlong encoding</u>. This indicates that we could have encoded 0x41 in a shorter <u>code unit</u>, in this case as ASCII <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">1000001</span></code
+                  >. Observe that all the <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a> are <code class="utf-8000-bits"><span class="utf-8000-bits-content-mandatory">0</span></code> which is the definition an <a class="a-dfn" href="#def-overlong-encoding">overlong encoding</a>. This indicates that we could have encoded 0x41 in a shorter <a class="a-dfn" href="#def-code-unit">code unit</a>, in this case as ASCII <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-optional">1000001</span></code
                   >.
                 </p>
                 <p>
-                  Security is one main reason why we forbid <u>overlong encoding</u>. For example we ensure that
+                  Security is one main reason why we forbid <a class="a-dfn" href="#def-overlong-encoding">overlong encoding</a>. For example we ensure that
                   <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">10</span><span class="utf-8000-bits-content-mandatory">0000</span></code>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-mandatory">0</span><span class="utf-8000-bits-content-optional">00000</span></code>
                   <code class="utf-8000-byte utf-8000-byte-continuation"><span class="utf-8000-bits-self-sync-continuation">10</span><span class="utf-8000-bits-content-optional">000000</span></code>
-                  cannot be decoded as <u>codepoint</u> 0, the null <q>byte</q>, lest one speciously pass such an overlong <q>byte</q> (<q><u>code unit</u></q
-                  >) to C functions like <code>strcpy(3)</code> and friends. <code>strcpy</code> would not interpret this <q><u>code unit</u></q> as a null byte, leading to a segfault at best, and serious vulnerabilities at least-worst.
+                  cannot be decoded as <a class="a-dfn" href="#def-codepoint">codepoint</a> 0, the null <q>byte</q>, lest one speciously pass such an overlong <q>byte</q> (<q><a class="a-dfn" href="#def-code-unit">code unit</a></q
+                  >) to C functions like <code>strcpy(3)</code> and friends. <code>strcpy</code> would not interpret this <q><a class="a-dfn" href="#def-code-unit">code unit</a></q> as a null byte, leading to a segfault at best, and serious vulnerabilities at least-worst.
                 </p>
-                <p>Uniqueness of encoding is another reason why we forbid <u>overlong encoding</u>. Every <u>codepoint</u> has one unique valid representation as a UTF-8000 <u>code unit</u>, which is easy to encode and decode using bitshifting.</p>
+                <p>Uniqueness of encoding is another reason why we forbid <a class="a-dfn" href="#def-overlong-encoding">overlong encoding</a>. Every <a class="a-dfn" href="#def-codepoint">codepoint</a> has one unique valid representation as a UTF-8000 <a class="a-dfn" href="#def-code-unit">code unit</a>, which is easy to encode and decode using bitshifting.</p>
                 <p>
-                  Fun observation: because all 4 of 2-byte UTF-8's <u>mandatory content bits</u> lie in the first-and-final <u>start byte</u>, we can explicitly rule out
+                  Fun observation: because all 4 of 2-byte UTF-8's <a class="a-dfn" href="#def-mandatory-content-bits">mandatory content bits</a> lie in the first-and-final <a class="a-dfn" href="#def-start-byte">start byte</a>, we can explicitly rule out
                   <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">0</span></code>
                   (0xC0) and
                   <code class="utf-8000-byte utf-8000-byte-first"><span class="utf-8000-bits-self-sync-first">11</span><span class="utf-8000-bits-start">0</span><span class="utf-8000-bits-content-mandatory">0000</span><span class="utf-8000-bits-content-optional">1</span></code>
                   (0xC1) as permanently invalid bytes. They will never ever appear anywhere in a valid UTF-8000
-                  <u>code unit</u>!
+                  <a class="a-dfn" href="#def-code-unit">code unit</a>!
                 </p>
               </td>
             </tr>
