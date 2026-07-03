@@ -942,7 +942,7 @@
         <h3 id="sec-properties-arbitrary-lengths-sensible-limits">Arbitrary Lengths, Sensible Limits</h3>
         <p>I think we've made it clear by now that UTF-8000 code units can be arbitrarily large. In practice however one <em>may</em> wish to set a sensible limit on code unit lengths when decoding. Here we'll discuss a method of finding some nice code unit lengths whose code units store <code>5n+1 = 2^N</code> bits, as we are often interested in powers of 2 in computer science.</p>
         <p>It is a common observation that 3-byte UTF-8 stores <code>5 * 3 + 1 = 16</code> bits, meaning the <a href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane">Basic Multilingual Plane</a> of Unicode can be encoded in one two and three byte UTF-8. We see that <code>2^4 mod5 = 16 mod5 = 1 mod5</code>; if <code>5n+1</code> is to be <code>2^N</code> for some <code>n</code> then certainly <code>2^N = 1 mod5</code>. If we enumerate powers of two modulo five then there is a very predictable repeating pattern of <q>1, 2, 4, 3</q>. Formally you might say that 2 is a generator of 𝔽<sub>5</sub><sup>*</sup> if you want impress a mathematician! The takeaway is that when <code>N=4K</code> for <code>K&ge;1</code> we can find a corresponding <code>n</code> such that <code>5n+1 = 2^N</code>. We can rewrite <code>2^N</code> as <code>2^(4K) = 16^K</code>.</p>
-        <p>In other words <q>any power of 16 has a UTF-8000 code unit length containing that many digits</q>. Here are a few of these for reference.</p>
+        <p>In other words <q>any power of 16 has a UTF-8000 code unit length containing that many bits</q>. Here are a few of these for reference.</p>
         <table>
           <thead>
             <tr>
@@ -983,7 +983,7 @@
             </tr>
           </tbody>
         </table>
-        <p>Do remember that strictly speaking one shouldn't allow overlong encodings if one were for example thinking of storing a small <code>uint256_t</code> key in a 51 byte code unit!</p>
+        <p>Do remember that strictly speaking one shouldn't allow overlong encodings, if one were for example thinking of storing a small <code>uint256_t</code> key in a 51 byte code unit! UTF-8000's variable width nature helps out leading to smaller code units for smaller integers.</p>
       </details>
 
       <details id="sec-intuitive-derivation" no-open="true">
