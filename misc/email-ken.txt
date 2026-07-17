@@ -35,3 +35,23 @@ number of follow on bytes. so, i think the only thing new is the
 
 i appreciate the mail, but i really dont think it is useful. it is
 like replacing ipv6 with ipv50.
+
+---
+
+Date: 2026/07/17
+From: email@jb2170.com
+To: kenbob@gmail.com
+Subject: Re: I have extended UTF-8 infinitely!
+
+Hi Ken,
+
+Thanks for the reply!
+
+I agree with the 'ipv50' remark haha. Even if we exhaust the existing 1,112,064 possible Unicode codepoints, going back to your original 6-byte UTF-8 proposal yields over 2 billion codepoints (31 bits), which would be sufficient for a long while, without needing continuation-start bytes.
+
+I'm submitting UTF-8000 to the 2026 [Summer of Math Exposition](https://some.3b1b.co/). I think it's still worth sharing if it inspires those interested in maths / computer science, even though it may never be used in our lifetimes.
+
+Do you mind if I include this email chain in the feedback section? I decided to first ask the creator of UTF-8 (yourself), then the authors of the alternatives that I've critiqued, then the general public.
+
+Thanks,
+Jay
