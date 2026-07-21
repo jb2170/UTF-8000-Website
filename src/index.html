@@ -4317,6 +4317,98 @@
         <p>Ken Thompson replied to my email. That's really cool! Here is the correspondence:</p>
         <details no-open="true">
           <summary style="font-size: 1rem">emails</summary>
+          <pre>
+Date: Jul 4, 2026, 1:13 AM
+From: Jay Berry <>
+To: Ken Thompson <>
+Subject: I have extended UTF-8 infinitely!
+
+Hi Ken,
+
+I thought you might be interested to see how (infinitely) far one can
+push UTF-8, without introducing any new special cases, and while
+maintaining all properties like self-synchronization, `strcmp(3)`
+ordering, n-byte multibyte code units having 5n+1 content bits, etc.
+
+I have put a one-page document on my
+[website](https://utf-8000.jb2170.com/) explaining the spec. The TLDR
+section should be sufficient to see what's going on, splitting the
+self-synchronization bits from the self-punctuation bits, and allowing
+the self-punctuation bits to roll over into continuation bytes.
+
+I have searched high and low on the internet to try to make sure that
+I have not *re*discovered this, that I am not unduly taking credit for
+it. It seems to be an original thought. I have also fairly analyzed a
+few rejected alternatives but they all lose key properties.
+
+Can I ask: Did you or Rob Pike or anyone else working on FSS-UTF /
+UTF-8 intend for it to be *this* extensible / future-proof? You did a
+really good job! At this rate it will still be around in many
+centuries' time.
+
+Happy Fourth of July! Consider this a 250th birthday gift from Great
+Britain (if you'd not already thought of it while designing UTF-8 back
+in the 90s lol).
+
+Thanks,
+Jay Berry
+
+---
+
+Date: Jul 16, 2026, 11:29 PM
+From: Ken Thompson <>
+To: Jay Berry <>
+Subject: Re: I have extended UTF-8 infinitely!
+
+your first 2 extensions (5 and 6 bytes) were clearly envisioned.
+the standard (up to 4 bytes) was created to cover the size of
+unicode. i thought any more description would be a waste of
+paper. i think your extension from 7 to 8 bytes is a little hoaky.
+i requires reading the whole string rather than "knowing" the
+number of follow on bytes. so, i think the only thing new is the
+7 byte version.
+
+i appreciate the mail, but i really dont think it is useful. it is
+like replacing ipv6 with ipv50.
+
+---
+
+Date: Jul 17, 2026, 11:13 PM
+From: Jay Berry <>
+To: Ken Thompson <>
+Subject: Re: I have extended UTF-8 infinitely!
+
+Hi Ken,
+
+Thanks for the reply!
+
+I agree with the 'ipv50' remark haha. Even if we exhaust the existing
+1,112,064 possible Unicode codepoints, going back to your original
+6-byte UTF-8 proposal yields over 2 billion codepoints (31 bits),
+which would be sufficient for a long while, without needing
+continuation-start bytes.
+
+I'm submitting UTF-8000 to the 2026 [Summer of Math
+Exposition](https://some.3b1b.co/). I think it's still worth sharing
+if it inspires those interested in maths / computer science, even
+though it may never be used in our lifetimes.
+
+Do you mind if I include this email chain in the feedback section? I
+decided to first ask the creator of UTF-8 (yourself), then the authors
+of the alternatives that I've critiqued, then the general public.
+
+Thanks,
+Jay
+
+---
+
+Date: Jul 18, 2026, 5:41 AM
+From: Ken Thompson <>
+To: Jay Berry <>
+Subject: Re: I have extended UTF-8 infinitely!
+
+you can use the reply.
+          </pre>
         </details>
 
         <h3 id="sec-feedback-rejected-alternatives-authors">Rejected Alternatives Authors</h3>
