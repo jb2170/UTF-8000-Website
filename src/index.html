@@ -2297,6 +2297,9 @@
           <p>The main reason I wrote this section was to provide an alternative to <a href="#sec-rejected-ucs-x">UCS-X</a>, so that we can use the same(ish) style as UTF-8000, and lest UCS-X or an even uglier idea come along.</p>
           <p>I predict that the Unicode Consortium would heavily push back on the idea of having to ban more codepoints, <code>U+90000</code> to <code>U+AFFFF</code>. No matter how one plans to extend UTF-16, it requires either forbidding some codepoints, or changing the syntax, either of which is a breaking change.</p>
           <p>For our modern times UTF-8 is undoubtedly the way to go, and by the time that we need to extend to UTF-8000, I would hope that UTF-16 and all other encodings belong in a museum, and we can therefore extend UTF-8 without worrying about compatibility with the others.</p>
+
+          <h3>Reference Implementation</h3>
+          <p>Available! See <a href="#sec-reference-implementation">below</a>.</p>
         </details>
 
         <details id="sec-utf-32k" open="true">
@@ -4430,12 +4433,15 @@ you can use the reply.
 
       <details id="sec-reference-implementation" open="true">
         <summary>Reference Implementation and Tools</summary>
-        <p>Working reference implementation in Python with comprehensive code documentation is available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>.</p>
-        <p>It can be installed as a PyPI package using <code class="shell-command">$ pipx install UTF-8000</code> which provides the command line utility <code>utf-8000</code>.</p>
+        <h3>UTF-8000</h3>
+        <p>Working reference implementation in Python with comprehensive code documentation is available on GitHub as <a href="https://github.com/UTF-8000/UTF-8000-Python">UTF-8000/UTF-8000-Python</a>. It can be installed as a PyPI package using <code class="shell-command">$ pipx install UTF-8000</code> which provides the command line utility <code class="shell-command">utf-8000(1)</code>.</p>
         <p>The <code class="shell-command">$ utf-8000 info</code> subcommand displays info about a codepoint encoded in UTF-8000, with useful bit highlighting.</p>
         <img src="/utf-8000-info-example.png" />
         <p>The <code class="shell-command">$ utf-8000 encode</code> subcommand reads codepoints from stdin and writes the raw UTF-8000 bytes to stdout.</p>
         <p>The <code class="shell-command">$ utf-8000 decode</code> subcommand reads UTF-8000 bytes from stdin and feeds them to an incremental decoder, writing the decoded codepoints to stdout.</p>
+
+        <h3>UTF-16K</h3>
+        <p>Working reference implementation for <a href="#sec-utf-16k">UTF-16K</a> is also available on GitHub as <a href="https://github.com/UTF-8000/UTF-16K-Python">UTF-8000/UTF-16K-Python</a>. It can be installed using <code class="shell-command">$ pipx install UTF-16K</code> which provides <code class="shell-command">utf-16k(1)</code> with the same subcommands as <code class="shell-command">utf-8000(1)</code>.</p>
       </details>
 
       <details id="sec-naming" open="true">
