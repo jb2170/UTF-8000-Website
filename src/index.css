@@ -81,6 +81,11 @@ details summary {
   text-decoration: underline double;
 }
 
+.shell-command {
+  background-color: papayawhip;
+  padding-inline: 1ch;
+}
+
 .a-dfn {
   color: black;
 }
