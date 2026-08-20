@@ -4480,6 +4480,169 @@ Jay Berry
                 </pre>
               </details>
 
+              <h4 id="sec-feedback-zack-weinberg">Zachary Weinberg (Owl)</h4>
+              <details no-open="true">
+                <summary style="font-size: 1rem">emails</summary>
+                <pre>
+Date: 2 Aug 2026, 19:18
+From: Zachary Weinberg <>
+To: Jay Berry <>
+Subject: Re: Unlimited UTF-8 | UTF-8000
+
+On Sun, Aug 2, 2026, at 11:14 AM, Jay Berry wrote:
+> I believe that I have discovered the "correct" way to extend UTF-8
+> infinitely, without introducing any new special cases, and while
+> maintaining all properties like self-synchronization, self-
+> punctuation, `strcmp(3)` ordering, n-byte multibyte units having 5n+1
+> content bits, etc. I've codenamed it "UTF-8000" or "UTF-8K".
+
+Hey, thanks for reaching out.  I'm delighted to see that I am not the
+only one fed up with the artificial limitation of UTF-8's encoding space
+to match UTF-16. I may actually revise my proposal to adopt your trick
+for preserving self-synchronization even when the start bits extend
+past the end of the first byte.
+
+I think you're not taking the value of *eliminating* overlength
+encodings seriously enough, though.  Yeah, that's the most complicated
+part of my proposal, and the part that means Corrected UTF-8 doesn't
+correspond to IETF UTF-8 for anything but the ASCII page, but it's also
+the part that means Corrected UTF-8 decoders *cannot* be a vehicle for
+path-smuggling attacks on network services, and therefore I consider it
+second in importance only to lifting the artificial plane limit.
+Making it impossible to encode surrogates is also important for
+security reasons; the only way I could be persuaded to not do that is
+if there was any chance that the surrogates might get *reassigned* as
+ordinary characters in a couple decades, once UTF-16 is truly dead and
+buried ... and I think the odds of that ever happening are far lower
+than the odds of the Unicode Consortium backing down on their "never will
+there be more than 17 planes" policy.
+
+I've mostly come around to agree with you on the C1 controls, though.
+Omitting them doesn't really help anything.  At the time I wrote the
+original document (some years before I posted it on my website) I was
+still working at a browser company and mislabeled or mistranscoded
+Windows-1252 was a regular headache; but I have the impression that
+has become much less common over the past decade and a half, and
+"this can represent any Unicode codepoint with an official non-surrogate
+assignment" *is* a desirable property for anything calling itself an UTF.
+
+zw
+
+---
+
+Date: 3 Aug 2026, 23:34
+From: Jay Berry <>
+To: Zachary Weinberg <>
+Subject: Re: Unlimited UTF-8 | UTF-8000
+
+Hi Zack,
+
+Thanks for the reply!
+
+> I may actually revise my proposal to adopt your trick
+> for preserving self-synchronization even when the start bits extend
+> past the end of the first byte.
+
+Self-synchronization was indeed a main feature that Ken Thompson figured out
+in fixing FSS-UTF:
+
+```
+0vvvvvvv
+10vvvvvv 1vvvvvvv
+110vvvvv 1vvvvvvv 1vvvvvvv
+...
+```
+
+(in which one couldn't tell the difference between eg a 2-byte start byte
+`10|vvvvvv` and a continuation byte `1|0vvvvvv`) to UTF-8:
+
+```
+0vvvvvvv
+110vvvvv 10vvvvvv
+1110vvvv 10vvvvvv 10vvvvvv
+...
+```
+
+in which the self-synchronization prefixes `0`, `10`, and `11` are distinct.
+[History of FSS-UTF -> UTF-8](https://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt
+#:~:text=10zzzzzz%201yyyyyyy). It is definitely well worth keeping :)
+
+> I think you're not taking the value of *eliminating* overlength
+> encodings seriously enough, though.
+
+Having n-byte (modified) UTF-8 decode to (value of content bits) plus
+(1 more than maximum that (n-1)-byte UTF-8 can encode) i.e. the offsets in
+your specification, sounds good at first, but if n is big then the offset accrues:
+2^7 + 2^11 + 2^16 + ... + 2^(5(n-1)+1). We can write this as
+2^7 + 2^11 * ((2^5)^0 + (2^5)^1 + ... + (2^5)^(n-3)) as a geometric series and
+explicitly compute it as 2^7 + 2^11 * (32^(n-2) - 1) / 31 for n >= 3,
+but that division is a bit 'icky' compared to addition subtraction multiplication
+and bitshifting.
+
+```py
+def offset(n: int) -> int:
+    if n == 1:
+        return 0
+    elif n == 2:
+        return (1 << 7)
+    else:
+        return (1 << 7) + (1 << 11) * ((1 << (5 * (n - 2))) // 31)
+```
+
+It seems a lot easier to say "n-byte multibyte UTF-8 can store up to
+(5n+1)-bit codepoints", a nice instance being 3-byte UTF-8 storing 16 bits,
+1 2 and 3 byte UTF-8 exactly covering
+[Plane 0](https://en.wikipedia.org/wiki/Plane_(Unicode)) of Unicode.
+
+[UTF-1](https://en.wikipedia.org/wiki/UTF-1) was an earlier encoding that
+Ken Thompson and Rob Pike tried out
+([interview](https://www.youtube.com/watch?v=OmVHkL0IWk4&t=14275s)). It used
+`mod 190` and divisions which they disliked, and eventually FSS-UTF and UTF-8
+came around which use simple bitwise operations to check against overlong encodings,
+and to extract the content bits. I think the anti-overlong checking is not too
+complicated, 2-byte UTF-8 being the only odd one out.
+
+Unicode offered a way forward from the ISO 8859-{1..16} diaspora of 8-bit codepages.
+UTF-8 offered ASCII forwards compatibility with better efficiency than UTF-16 using
+byte-precision rather than word-precision. I don't think that your offset-based
+UTF-8 offers a significant upgrade. It's really just to protect noob software
+developers who might write broken decoders for UTF-8 that don't do anti-overlong
+checking and surrogate range checking.
+
+> any chance that the surrogates might get *reassigned* as
+> ordinary characters in a couple decades
+
+My guess is that regardless of whether UTF-16 continues to live on, the
+surrogate range will remain unencodable, due to pre-established UTF-8 parsers
+rejecting them. Though I could be wrong, as iirc IP addresses that ended in `.0`
+were originally not allowed, but now are. It does make one wonder what those
+2048 codepoints could be assigned to...
+
+> I've mostly come around to agree with you on the C1 controls, though.
+
+That's great. I don't think I've ever actively used them, but yeah C1 should be
+in / remain in Unicode as a way to refer to it using codepoints. It's a bit of a
+shame that they don't (yet) have a 'control pictures' block like
+[C0 Does](https://www.compart.com/en/unicode/block/U+2400).
+
+> a regular headache
+
+On a similar note there's still some software that is fiddly with them. I've got
+a [bug to fix](https://github.com/jb2170/better-adb-sync/issues/42) that I've
+figured out the solution to whilst messing with UTF-8(000) and encodings.
+Android's Toybox's `ls` outputs U+0080 to U+009F 'C1 control codes' and
+U+00A0 'non-breaking space' differently depending on whether `ls` is running over
+`adb` interactively or not: interactively U+00A0 prints as `\240` octal-escape style,
+but non-interactively it prints as the byte `a0`, which is either a coincidentally
+decapitated UTF-8 unit `c2 a0`, or the raw ISO-8859-1 8-bit byte. The fix is to
+use the `-b` flag on `ls` to force an escaped style. So tldr I understand the
+fiddly-ness lol.
+
+Thanks,
+Jay
+                </pre>
+              </details>
+
               <h3 id="sec-feedback-some-2026">SoME 2026</h3>
               <p>I am submitting this work to 3b1b's <a href="https://some.3b1b.co/">Summer of Mathematics Exposition 2026</a>. I hope that it is useful to some people who view it, that it is educational about coding theory, and that maybe there'll be some feedback.</p>
 
