@@ -4643,6 +4643,335 @@ Jay
                 </pre>
               </details>
 
+              <h4 id="sec-feedback-tom-bishop">Tom Bishop (UCS-X)</h4>
+              <details no-open="true">
+                <summary style="font-size: 1rem">emails</summary>
+                <pre>
+Date: 2 Aug 2026, 19:41
+From: Thomas Eugene Bishop <>
+To: All <>
+Subject: Re: Unlimited UTF-8 | UTF-8000
+
+Hi Jay,
+
+Thanks for letting me know about your work, and the others you reference. It's
+good to know that others are interested in extending the range of encoding.
+
+I'll study the proposals more when I have time. Based on first impressions, I
+have these comments.
+
+About "the 'correct' way": maybe you mean that ironically and recognize there's
+more than one way to do it, with trade-offs. On the other hand, you wrote,
+"Nobody else seems to have figured it out, as only worse rejected alternatives
+have been previously proposed." That sounds like an unwarranted claim that
+you've solved a problem nobody else was able to solve. I wish you wouldn't use
+the word "rejected" to describe alternatives, since it might be misconstrued
+(maybe through an AI search) as implying a decision by an organization with some
+capacity to accept or reject proposals. I think what you mean is that you
+personally prefer your own proposal.
+
+Now that multiple solutions exist, there's room to compare them by various
+criteria such as efficiency, simplicity, and robustness.
+
+You described Larry Wall's utf8 as "inextensible"; that's wrong, as proved by
+its extension to UTF-∞-8. Or else, "inextensible" doesn't mean what I think it
+means. Also, my understanding is that the contrast between "utf8" and "UTF-8"
+was intentional.
+
+You wrote, "UCS-X proposes three extensions for each of UTF-8, UTF-16, UTF-32,
+for a total of nine specifications, twelve including the existing base
+specifications!" and "it's quite complicated". I think this reference to 12
+specs is an unfair criticism. The existence of multiple specs doesn't imply
+complexity of the encodings themselves. The complication of the existing 3 base
+specs is obviously beyond anybody's control at this point. Of the remaining 9,
+you can ignore 6 if you want, since they are merely simplifications of the last
+3; that is, the specs with max U+7FFFFFFF and U+7FFFFFFFFFFFFFFF are just
+subsets of the specs with max infinity. We separated them out to support
+implementers who might have good reasons not to go straight to infinity.
+
+You wrote, "At a glance the UTF-16 extensions look like they break syntax with
+base UTF-16, ...". I don't know what you mean by "break syntax", but UTF-∞-16 is
+a compatible extension of UTF-16 in the sense that our spec defines "compatible
+extension". It would be more responsible to postpone publishing a "break syntax"
+assertion until you're certain and ready to explain what you mean by it.
+
+You wrote, "... UTF-8000 code units can be arbitrarily large" -- I think you
+mean UTF-8000 codes can be arbitrarily large. A UTF-8000 code unit is always 8
+bits, right?
+
+To me, while the technical details of encoding are interesting, what's more
+interesting is how people might eventually use extended encodings, such as to
+define their own characters and use them for public communication, without
+having to wait for official approval of each character.
+
+Best wishes,
+
+Tom
+
+---
+
+Date: 3 Aug 2026, 16:57
+From: Thomas Eugene Bishop <>
+To: All <>
+Subject: Re: Unlimited UTF-8 | UTF-8000
+
+Hi Jay,
+
+I wrote a script to compare the lengths of UTF-8000 and UTF-∞-8 codes, and also
+their "start" bytes. That script isn't thoroughly tested and it might be only
+approximate especially in some edge cases. With that disclaimer, it seems that
+if a USV has 47 or more digits, then UTF-8000 is longer than UTF-∞-8. If a USV
+has 18 or more digits, the number of "start bytes" (needed to determine the
+length of an entire code) is longer for UTF-8000 than for UTF-∞-8. For a USV
+with 128 digits, UTF-8000 has 102 total bytes and 17 start bytes, while UTF-∞-8
+has 90 total bytes and 4 start bytes. UTF-8000 does have shorter codes in some
+ranges, such as for USV with 10-15 digits.
+
+Neither solution is optimal in terms of storage size. There are trade-offs such
+as speed of execution, simplicity, robustness, etc.
+
+The number of start bytes might be important in situations where text is read
+into a fixed-size buffer and a buffer might contain a partial code. Software
+should be able to determine the length of an entire code by scanning a
+relatively small number of start bytes, both for efficiency and to avoid bugs in
+cases where one code might span many buffers. This is an example of
+"robustness". Another example is that protocols should enable processes to
+indicate max supported USV.
+
+The term "code unit" has a standard definition
+(https://unicode.org/glossary/#code_unit) that differs from yours
+(https://utf-8000.jb2170.com/#def-code-unit). I recommend following the standard
+to avoid confusion.
+
+It's wonderful that you might bring up this topic at the Summer of Math Exposition!
+
+Cheers,
+
+Tom
+
+---
+
+Date: 8 Aug 2026, 21:26
+From: Jay Berry <>
+To: Thomas Eugene Bishop <>
+Subject: Re: Unlimited UTF-8 | UTF-8000
+
+Hi Tom,
+
+Thanks for the feedback!
+
+> About "the 'correct' way": maybe you mean that ironically and recognize
+> there's more than one way to do it, with trade-offs.
+
+There are indeed other solutions such as UTF-∞-8 which preserve all properties
+like self-synchronization, self-punctuation, strcmp order etc. However the
+reason I've referred to it as the 'correct' way is because in my opinion it
+looks like the 'natural' way to extend UTF-8, as I put in the [properties]
+section addressing the fact that the anti-overlong mechanism works the same as
+UTF-8, with no new special cases. I find it very simple to explain (in
+retrospect) to begin with bytes endowed with self-synchronization prefixes '11'
+and '10', and to stripe the self-punctuation bits across them.
+
+> you wrote, "Nobody else seems to have figured it out, as only worse rejected
+> alternatives have been previously proposed."
+
+By that I mean that nobody else online has suggested the exact layout that
+UTF-8000 proposes, which I feel is the 'natural' / 'correct' one, formally
+identifying the self-synchronization and self-punctuation bits and how to use
+them. The verdicts on the other proposals summarize their flaws, all but UTF-∞-8
+losing key properties of interest.
+
+> I wish you wouldn't use the word "rejected" ... implying a decision by an
+> organization with some capacity to accept or reject proposals
+
+I styled my document a bit like a [Python PEP], in which often the alternatives
+have to be firmly disproven. That being said, yes I don't think I've made it
+clear that this is a *proposal*, not an existing standard. In the Python
+reference implementation [readme] I added the line "UTF-8000 is in no way
+endorsed by or representative of the Unicode Consortium. This is a standalone
+project.". I think I'll copy that to the header of the website, thanks!
+
+> You described Larry Wall's utf8 as "inextensible"
+
+I know it looks like I'm contradicting myself 10 seconds later by pointing out
+that UCS-X extends from utf8, but what I meant is that Perl utf8 *on its own* is
+designed only to go up to 2^63-1. It uses the `FF` byte to start its 13-byte
+units and doesn't specify how one could continue onwards. I also don't feel the
+need for UTF-8000 to extend utf8 like UCS-X does, as utf8 is not used outside
+Perl, and we have the opportunity to make UTF-8000 more flexible allowing
+8,9,10,11,12 byte units with 'correct' self-punctuation syntax (whereas utf8's
+second byte is just a plain 0x80).
+
+> Also, my understanding is that the contrast between "utf8" and "UTF-8" was intentional.
+
+Yeah I'll remove that line about "utf8" vs "UTF-8", thanks. I know that the
+Unicode Consortium is pedantic with referring to 'UTF-8' using a hyphen, and I
+originally thought that Perl was just being a bit loose with the naming. It is
+more likely that 'utf8' was chosen to show that it's not *exactly* 'UTF-8', like
+I'm using 'UTF-8000' as a codename for my proposal.
+
+> I think this reference to 12 specs is an unfair criticism.  The existence of
+> multiple specs doesn't imply complexity of the encodings themselves.  We
+> separated them out to support implementers who might have good reasons not to
+> go straight to infinity.
+
+We can group UTF-8 and UTF-G-8 together since they both follow the same style,
+and 5/6-byte UTF-8 was envisioned by Ken Thompson. As for the UTF-E-8 and
+UTF-∞-8 specifications, they are very different.
+
+I think that UTF-8000, which is just one specification, within which there are
+'natural ranges' (ie limiting to n-byte units) is a better approach. My original
+specification for UTF-16K was going to use just one Unicode Plane, to provide
+decent efficiency but without being too greedy in needing to claim existing
+Unicode codepoints. But then I realised that this would provide 14k+1 content
+bits, whereas if we used two planes instead of one, this would be 15k+1 content
+bits, which overlaps nicely with 5n+1 provided by UTF-8000. So I have taken some
+thought and care as to create 'ranges' like your 'Giga', 'Exa', 'Inf' ideas,
+with which UTF-8 and UTF-16 can be expanded in parallel. I put this in the
+[UTF-16K spec]. I think it's a lot easier to say "this is what n-byte UTF-8 and
+k-surrogate-pair UTF-16 looks like. restrict to n=3k and you have ranges that
+encode the same codepoints" than to have a patchwork of different standards
+based on what range a codepoint is in, like UCS-X eg includes Perl utf8 as
+UTF-E-8.
+
+> I don't know what you mean by "break syntax", but UTF-∞-16 is a compatible extension
+
+By 'compatible' I'm thinking along the lines of backwards compatibility "will
+this throw an error in a UTF-8 / UTF-16 parser?" and "are we maintaining the
+pre-established syntax?".
+
+For UTF-8, technically one could argue that UTF-8000 and UTF-∞-8 "break syntax"
+by eg using the byte 'FF', which when fed into a UTF-8 parser will cause an
+exception. However on the other hand the byte 'FF' causing an exception is only
+due to the restriction to U+10FFFF on the range of codepoints for UTF-8,
+provided one's UTF-8 extension uses the byte 'FF'. So yes I'm being a bit
+hypocritical, but I feel fine with that because bytes F{5..F} are currently
+unused by UTF-8, and the proposed syntax of UTF-8000 is predictably the same as
+UTF-8, eg wrt self-synchronization prefixes for non-ASCII first bytes being
+'11', and for continuation bytes being '10'.
+
+For UTF-16, every 16-bit word has already been used. Instead of changing the
+syntax to use eg 1 high surrogate and (n-1) low surrogates, or like UTF-G-16 use
+n low surrogates, I decided to use a "semantic reinterpretation" layer on top of
+UTF-16, ASCVI-on-UTF-16. Ie, just as UTF-16 is a semantic reinterpretation of
+UCS-2, interpreting codepoints in the ranges U+D800 to U+DBFF and U+DC00 to
+U+DFFF no longer as those individual codepoint values, but rather as parts of
+surrogate pairs, so too I decided to implement UTF-16K as a semantic
+reinterpretation of plane 9 and 10 surrogate pairs. The nice thing about this is
+that a decoder which only understands UTF-16 can open a UTF-16K encoded file,
+just as a UCS-2 decoder can open UTF-16 files. Plane 9 and 10 surrogate pairs
+would be displayed as UTF-16 codepoints rather than as one UTF-16K codepoint,
+just as a UCS-2 parser would show two surrogate codepoints instead of one UTF-16
+codepoint; semantic errors rather than syntax errors. Contrast that with
+UTF-G-16, U+110000 encoded as 'DC04 DE80 DE00', with which the opening word may
+immediately raise an exception in a UTF-16 parser.
+
+For UTF-G-16, for ill-formed units, I am able to generate context-dependent
+error handling behavior which leads to errors being decoded as though they are
+correct. I am able to cause a contradiction in your UTF-G-16 [decoding rules]:
+make 'DC04' both preceded by D800 (to make it trailing) and succeeded by DE80
+(to make it leading). If we were to seek to the point 'X' in a stream 'X D800 Y
+DC04 DE80 DE00' we would decode this as 'U+10004 (D800 DC04) U+FFFD (replace
+DE80) U+FFFD (replace DE00)'. If we were to seek to the point 'Y' we would
+decode this as 'U+110000 (DC04 DE80 DE00)', using the low surrogate 'DC04' and
+leaving the high surrogate 'D800' before the seek point Y. This looks like bad
+behavior. In UTF-8 and UTF-8000 because the first-byte and continuation-byte
+self-synchronization prefixes make their byte ranges disjoint, I don't think a
+situation like this can happen there. Ie never will a 'well formed unit X
+followed by errors' be incorrectly decoded as a 'well formed unit Y with perhaps
+some junk before it' if one seeks to the middle of the well formed unit 'X'. So
+too UTF-16K keeps the {high surrogate | low surrogate} and {first surrogate pair
+(plane 9) | continuation surrogate pair (plane 10)} ranges disjoint which avoids
+this issue and maintains self-synchronization at the word-level. UTF-G-16
+muddies the water by 'DC04' being trailing (UTF-16 surrogate pair) or leading
+(UTF-G-16 leading) dependent on previous words. This is also why a UTF-8 /
+UTF-8000 parser only ever needs to seek *forwards* to the next first byte if it
+encounters an error.
+
+~~For UTF-G-16, for well formed units, something still doesn't feel right that
+one might need to look backwards to determine whether eg 'DC04' is trailing or
+leading. We do not always have backwards seeking, like on a pipe or socket, or
+at least we don't want to do backtracking like complicated regexes sometimes
+do.~~ In well formed units we know exactly one of those conditions will be true
+and we can look forwards rather than back, right? This seems like minutiae
+compared to the behaviour in the previous paragraph.
+
+Back to UTF-8, this conversation has made me realize that one could implement
+*private-use extensions* on top of Unicode / UTF-8 using ASCVI-on-UTF-8, in a
+similar way to UTF-16K using ASCVI-on-UTF-16. We can achieve an ASCVI-like code
+in as little as 3 bits, 8 codepoints:
+
+0: 000, 1: 001, 2: 010 110, 3: 010 111, 4: 011 101 100, 5: 011 101 101,
+6: 011 101 110, 7: 011 101 111, 8: 011 110 110 100, 9: 011 110 110 101, ...
+
+though using more bits will of course lead to more efficient codes. The
+advantage of this style is that it's just a semantic reinterpretation layer on
+top of UTF-8, and will pass right through a UTF-8 parser okay. A good range of
+codepoints to use may be some of the U+E000 to U+F8FF Plane 0 private-use
+codepoints. This seems like a great way in which one could create their own
+autonomous set of 'MyUnicode' codepoints M+...XXXX starting at M+0000,
+MyUnicode-on-Unicode style (as opposed to UTF-16K which uses the *public*
+Unicode range and postulates starting at U+110000). This would answer your
+point:
+
+> what's more interesting is how people might eventually use extended encodings,
+> such as to define their own characters and use them for public communication,
+> without having to wait for official approval of each character
+
+It does somewhat go against the spirit of "Uni"code, which is the one-and-only
+'flat' layer of codepoints, to use an ASCVI layer on top of Unicode / UTF-8. One
+can also imagine ASCVI-on-(ASCVI-on-UTF-8) if the M+...XXXX codepoints had their
+*own* private-use area which allowed further sub-encoding. It's a fun thought to
+think of trees of Unicode embedded recursively as layers on top of each other,
+but it would surely be a bit anarchic and low-efficiency. Therefore my main
+focus with UTF-8000 and UTF-16K has been on how *Unicode* could expand in the
+long run. The private-use extensions do sound fun, but may be a bit clunky when
+decoded in a programming language, being interspersed in 'normal' Unicode
+strings.
+
+> I wrote a script to compare the lengths of UTF-8000 and UTF-∞-8 codes, and
+> also their "start" bytes.
+
+Yes UTF-∞-8 has shorter units in the long run, an efficiency tending towards 6/8
+whereas UTF-8000's efficiency tends towards 5/8. It's probably easiest to point
+to UTF-8000 using a linear number of self-punctuation bits (n-1) -> O(n),
+whereas UTF-∞-8 is roughly logarithmic O(log_2(n)).
+
+> Software should be able to determine the length of an entire code by scanning
+> a relatively small number of start bytes, both for efficiency and to avoid
+> bugs in cases where one code might span many buffers.
+
+This is a good point, and UTF-∞-8 is more succinct with respect to
+self-punctuation. For 33 hex-digit codepoints, UTF-∞-8 uses 2 bytes, whereas
+UTF-8000 uses 5, for 273 hex-digits UTF-∞-8 uses 4 bytes, whereas UTF-8000 uses
+37! Mogs me.
+
+and finally
+
+> The term "code unit" has a standard definition that differs from yours. I
+> recommend following the standard to avoid confusion.
+
+I realised this half way through writing the UTF-8000 spec and I'm struggling to
+think of an alternative name. I opened a GitHub [issue] to remind me to rename
+it. 😅
+
+So to conclude so far:
+
+- I still think that UTF-8000 is simpler to explain and more predictable than UTF-∞-8
+- UTF-∞-8 is asymptotically more efficient than UTF-8000 and requires less start
+  bytes (self-punctuation bytes)
+- UTF-G-16 (and beyond?) looks broken to me, though I haven't properly anatomized
+  the UTF-X-16 family of UCS-X proposals like I have for the UTF-X-8 family.
+- ASCVI-on-private-use-UTF-8 sounds like an okay idea for private-use extensions
+  if they require a large amount of 'codepoints' (sub-encoded virtual
+  my-codepoints M+...XXXX)
+- I have a few remarks to change on my proposal
+
+This has been a fun project! Thanks for the emails,
+Jay
+                </pre>
+              </details>
+
               <h3 id="sec-feedback-some-2026">SoME 2026</h3>
               <p>I am submitting this work to 3b1b's <a href="https://some.3b1b.co/">Summer of Mathematics Exposition 2026</a>. I hope that it is useful to some people who view it, that it is educational about coding theory, and that maybe there'll be some feedback.</p>
 
